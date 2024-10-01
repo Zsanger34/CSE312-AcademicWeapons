@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to My Django App</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'myapp/css/styles.css' %}">
+    <script src="{% static 'myapp/js/scripts.js' %}"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Welcome</h1>
+            <p>Lets Begin</p>
+        </header>
+        <img src="{% static 'myapp/images/image.png' %}" alt="TODO: PICK AND Insert Image" class="main-image">
+        <button class="cta-button">Get Started</button>
+    </div>
+</body>
+</html>
