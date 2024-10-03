@@ -1,12 +1,26 @@
 version: '3.8'
 
 services:
-  web:
-    build: ./app
+  app:
+    build:
+      context: .   # Context should point to the root of your project
+      dockerfile: Dockerfile
     ports:
-      - "8080:8000"
+      - "5001:5000"
+    environment:
+      - DATABASE_URL=postgresql://postgres:mysecretpassword@db:5432/mydatabase
+    depends_on:
+      - db
+
+  db:
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_DB: mydatabase
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: mysecretpassword
     volumes:
-      - ./app:/app
-    command: >
-      sh -c "python manage.py migrate &&
-             python manage.py runserver 0.0.0.0:8000"
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
