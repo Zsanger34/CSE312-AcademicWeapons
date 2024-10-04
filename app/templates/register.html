@@ -9,12 +9,13 @@
 </head>
 <body>
     <div class="registpage">
+        <div id="errormessage"></div>
         <form class="registrationForm"  action='/register' method="post" enctype="application/x-www-form-urlencoded">
             <p class="title">Create Your Account</p>
             <input type="text" id="username" name="username" pattern="^\S+$" placeholder="Enter Username" required>
             <input type="password" id="password" name="password" placeholder="Create a Password" required>
             <input type="password" id="confirmpassword" name="confirmpassword" placeholder="Confirm new Password" required>
-            <button type="submit">Create Account</button>
+            <button id="create" type="submit">Create Account</button>
         </form>
     </div>
     <div class="welcome">

@@ -24,17 +24,46 @@ def register():
         password = request.form['password']
         confirmpassword = request.form['confirmpassword']
         
-        
-        #check if the username is not in the database
-        conn = get_db_connection()
-        cursor = conn.cursor()
-        cursor.execute('SELECT current_database()')
-        name = cursor.fetchone()[0]
-        print(f'database name: {name}', flush=True)
-        
-        #now if the user does exist we check the passwords match and hash it
+       #check username for the databasee
+      
+        #checking to see if the password is valid
+        valid1 = False
+        valid2 = False
+        #check if the created passwords match
         if password == confirmpassword:
-            hashed_password = bcrypt.hashpw(password.encode(), bcrypt.gensalt())
+            valid1 = True
+            
+        #create a way to check if the passowrd has a 8>=len, special char, digit, lower, upper
+        ca, sm, sp, di = 0, 0, 0, 0
+        capitalalphabets="ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        smallalphabets="abcdefghijklmnopqrstuvwxyz"
+        specialchar="$@_!#$%&*()-_+=|/`~"
+        digits="0123456789"
+        #count the stuff
+        if len(password) >= 10:
+            for character in password:
+                if character in capitalalphabets:
+                    ca += 1
+                if character in smallalphabets:
+                    sm += 1
+                if character in specialchar:
+                    sp += 1
+                if character in digits:
+                    di += 1
+        if ca >= 1 and sm >= 1 and sp >= 1 and di >= 1 and ca+sm+sp+di==len(password):
+            valid2 = True
+            
+        #check to see if passwords are false
+        if valid2 == False:
+            return jsonify({'error': 'Username and password are required'}), 400
+        else:
+            return jsonify({'message': 'User registered successfully!'}), 200
+        
+        #we have a valid password database stuff and hash the password
+        #hashed_password = bcrypt.hashpw(password.encode(), bcrypt.gensalt())
+        
+        #create a cookie to put into the database
+            
         
     #send the html code to the server 
     return render_template('register.html')
