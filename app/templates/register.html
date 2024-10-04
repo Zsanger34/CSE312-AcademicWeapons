@@ -4,16 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registration</title>
-    <link rel="stylesheet" href="register.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/register.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="registpage" method="post" enctype="application/x-www-form-urlencoded">
-        <form class="registrationForm">
+    <div class="registpage">
+        <form class="registrationForm"  action='/register' method="post" enctype="application/x-www-form-urlencoded">
             <p class="title">Create Your Account</p>
             <input type="text" id="username" name="username" pattern="^\S+$" placeholder="Enter Username" required>
-            <input type="text" id="password" name="password" placeholder="Create a Password" required>
-            <input type="text" id="confirmpassword" name="confirmpassword" placeholder="Confirm new Password" required>
+            <input type="password" id="password" name="password" placeholder="Create a Password" required>
+            <input type="password" id="confirmpassword" name="confirmpassword" placeholder="Confirm new Password" required>
             <button type="submit">Create Account</button>
         </form>
     </div>
@@ -21,6 +21,6 @@
         <p class="welcometitle">Welcome <br>to <br>Academic Weapons</p>
     </div>
 
-    <script src="/register.js"></script>
+    <script src="{{ url_for('static', filename='js/register.js') }}"></script>
 </body>
 </html>
