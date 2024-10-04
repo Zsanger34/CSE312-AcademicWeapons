@@ -28,19 +28,9 @@ def register():
         #check if the username is not in the database
         conn = get_db_connection()
         cursor = conn.cursor()
-        cursor.execute("""
-            SELECT table_name
-            FROM information_schema.tables
-            WHERE table_schema = 'public'
-        """)
-
-        # Step 4: Fetch all table names
-        tables = cursor.fetchall()
-
-        # Step 5: Print the names of all tables
-        print("Tables in the database:", flush=True)
-        for table in tables:
-            print(table, flush=True)
+        cursor.execute('SELECT current_database()')
+        name = cursor.fetchone()[0]
+        print(f'database name: {name}', flush=True)
         
         #now if the user does exist we check the passwords match and hash it
         if password == confirmpassword:
