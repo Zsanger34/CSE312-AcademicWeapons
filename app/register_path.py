@@ -1,4 +1,4 @@
-from flask import Blueprint, request, jsonify, render_template
+from flask import Blueprint, request, jsonify, render_template, flash, url_for, redirect
 import psycopg2
 
 #creating a route named register
@@ -22,11 +22,18 @@ def register():
         password = request.form['password']
         confirmpassword = request.form['confirmpassword']
         
-        return jsonify({
-            "username": username,
-            "password": password,
-            "confirmpassword": confirmpassword
-        }), 200
+        #check if the username is not in the database
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM users WHERE username = %s", (username))
+        user = cursor.fetchone()    #get the first matching row / user does exist
+        if user:
+            #user does exist
+            flash("Username already Exists. Please Create a New One!")
+            return redirect(url_for('register'))
+        
+        #now if the user does exist we check the passwords match and hash it
+        
         
     #send the html code to the server 
     return render_template('register.html')
