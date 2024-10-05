@@ -26,9 +26,18 @@ def register():
         username = data.get('username')
         password = data.get('password')
         confirmpassword = data.get('confirmpassword')
+        errors = {}
         
-        #check to see if the username exists (user_info) that is the table
-        
+        #check to see if the username exists in (users)
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute('SELECT * FROM users WHERE username = %s', (username,))
+        username_valid = True
+        result = cursor.fetchone()
+        if result:
+            #user is taken and put false so we know its not valid so we can send a response
+            errors['message2'] = 'username is taken'
+            username_valid = False
         
         #checking to see if the password is valid
         valid1 = False
@@ -55,14 +64,15 @@ def register():
                     di += 1
         if ca >= 1 and sm >= 1 and sp >= 1 and di >= 1 and ca+sm+sp+di==len(password):
             valid2 = True
-        #send a bad respone if the password is not valid
-        errors = {}
+            
+        #send a bad respone if the password is not valid or the username is taken
         if valid1 == False or valid2 == False:
             errors['message1'] = 'invalid password'
-            #errors['message2'] = 'username is taken'
+        if valid1 == False or valid2 == False or username_valid == False:
+            #so if any of valid is false we send an error message
             return jsonify(errors), 400
         else:
-            #send a valid response if the password is valid
+            #send a valid response if the username and password requirments are valid
              return jsonify({'message': 'Password is Valid'}), 200
         
     #send the html code to the server 
