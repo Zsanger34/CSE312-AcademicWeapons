@@ -26,13 +26,16 @@ def register():
         username = data.get('username')
         password = data.get('password')
         confirmpassword = data.get('confirmpassword')
-         #checking to see if the password is valid
+        
+        #check to see if the username exists (user_info) that is the table
+        
+        
+        #checking to see if the password is valid
         valid1 = False
         valid2 = False
         #check if the created passwords match
         if password == confirmpassword:
             valid1 = True
-            
         #create a way to check if the passowrd has a 8>=len, special char, digit, lower, upper
         ca, sm, sp, di = 0, 0, 0, 0
         capitalalphabets="ABCDEFGHIJKLMNOPQRSTUVWXYZ"
@@ -52,7 +55,6 @@ def register():
                     di += 1
         if ca >= 1 and sm >= 1 and sp >= 1 and di >= 1 and ca+sm+sp+di==len(password):
             valid2 = True
-        
         #send a bad respone if the password is not valid
         errors = {}
         if valid1 == False or valid2 == False:
