@@ -18,15 +18,15 @@ def get_db_connection():
 
 @register_route.route('/register', methods=['GET', 'POST'])
 def register():
+    
     if request.method == 'POST':
-        #get the data information from the user
-        username = request.form['username']
-        password = request.form['password']
-        confirmpassword = request.form['confirmpassword']
         
-       #check username for the databasee
-      
-        #checking to see if the password is valid
+        #get the data from the json string sent from the front end
+        data = request.get_json()
+        username = data.get('username')
+        password = data.get('password')
+        confirmpassword = data.get('confirmpassword')
+         #checking to see if the password is valid
         valid1 = False
         valid2 = False
         #check if the created passwords match
@@ -52,18 +52,16 @@ def register():
                     di += 1
         if ca >= 1 and sm >= 1 and sp >= 1 and di >= 1 and ca+sm+sp+di==len(password):
             valid2 = True
-            
-        #check to see if passwords are false
-        if valid2 == False:
-            return jsonify({'error': 'Username and password are required'}), 400
+        
+        #send a bad respone if the password is not valid
+        errors = {}
+        if valid1 == False or valid2 == False:
+            errors['message1'] = 'invalid password'
+            errors['message2'] = 'username is taken'
+            return jsonify(errors), 400
         else:
-            return jsonify({'message': 'User registered successfully!'}), 200
-        
-        #we have a valid password database stuff and hash the password
-        #hashed_password = bcrypt.hashpw(password.encode(), bcrypt.gensalt())
-        
-        #create a cookie to put into the database
-            
+            #send a valid response if the password is valid
+             return jsonify({'message': 'Password is Valid'}), 200
         
     #send the html code to the server 
     return render_template('register.html')

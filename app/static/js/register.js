@@ -45,10 +45,17 @@ document.addEventListener('DOMContentLoaded', () => {
         const result = await response.json();
 
         if (response.ok) {
-            alert(result.message); // Example: Show success message
+            //there is no error and redirect them to the homepage
+            alert(result.message);
         } else {
-            // Handle error response from Flask
-            errorMessage.innerHTML = result.error;
+            //display the error messages
+            let messages = [];
+            for (let key in result) {
+                if (result.hasOwnProperty(key)) {
+                    messages.push(result[key]);
+                }
+            }
+            errorMessage.innerHTML = `<ul><li>${messages.join('</li><li>')}</li></ul>`;
         }
         
 

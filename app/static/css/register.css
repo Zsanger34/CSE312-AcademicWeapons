@@ -14,6 +14,7 @@ body{
     justify-content: center;
     width: 50%;
     height: 100vh;
+    flex-direction: column;
 }
 .registrationForm{
     overflow: none;
@@ -21,7 +22,7 @@ body{
     display: flex;
     flex-direction: column;
     width: 42rem;
-    height: 30rem;
+    height: 22rem;
     align-items: center;
     justify-content: center;
 }
@@ -66,4 +67,12 @@ body{
     text-align: center;
     color: white;
     line-height: 2rem;
+}
+#errormessage ul{
+    color: red;
+    list-style-type: none;
+    text-align: center;
+}
+#errormessage li{
+    margin-bottom: 15px;
 }
