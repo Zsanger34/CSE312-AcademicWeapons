@@ -10,8 +10,51 @@ document.getElementById('confirmpassword').addEventListener('input', function ()
         document.getElementById('confirm-password').classList.remove('match');
     }
 });
+document.getElementById('password').addEventListener('input', function() {
+    const password = this.value;
+    
+    // Check password rules
+    const lengthRule = document.getElementById('length');
+    const uppercaseRule = document.getElementById('uppercase');
+    const lowercaseRule = document.getElementById('lowercase');
+    const numberRule = document.getElementById('number');
+    const specialRule = document.getElementById('special');
 
+    // Rule: At least 10 characters
+    if (password.length >= 10) {
+        lengthRule.classList.add('valid');
+    } else {
+        lengthRule.classList.remove('valid');
+    }
 
+    // Rule: One uppercase letter
+    if (/[A-Z]/.test(password)) {
+        uppercaseRule.classList.add('valid');
+    } else {
+        uppercaseRule.classList.remove('valid');
+    }
+
+    // Rule: One lowercase letter
+    if (/[a-z]/.test(password)) {
+        lowercaseRule.classList.add('valid');
+    } else {
+        lowercaseRule.classList.remove('valid');
+    }
+
+    // Rule: One number
+    if (/\d/.test(password)) {
+        numberRule.classList.add('valid');
+    } else {
+        numberRule.classList.remove('valid');
+    }
+
+    // Rule: One special character
+    if (/[!@#$%^&*]/.test(password)) {
+        specialRule.classList.add('valid');
+    } else {
+        specialRule.classList.remove('valid');
+    }
+});
 //sending the data to flask and then flask sends a message back
 document.addEventListener('DOMContentLoaded', () => {
     //declare our variables (form, seewehn )

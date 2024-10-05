@@ -57,7 +57,7 @@ def register():
         errors = {}
         if valid1 == False or valid2 == False:
             errors['message1'] = 'invalid password'
-            errors['message2'] = 'username is taken'
+            #errors['message2'] = 'username is taken'
             return jsonify(errors), 400
         else:
             #send a valid response if the password is valid

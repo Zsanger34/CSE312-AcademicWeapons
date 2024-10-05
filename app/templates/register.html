@@ -13,10 +13,17 @@
             <p class="title">Create Your Account</p>
             <input type="text" id="username" name="username" pattern="^\S+$" placeholder="Enter Username" required>
             <input type="password" id="password" name="password" placeholder="Create a Password" required>
+            <ul class="password-rules">
+                <li id="length" class="rule">A minimum of 10 characters</li>
+                <li id="uppercase" class="rule">Contains an uppercase letter</li>
+                <li id="lowercase" class="rule">Contains a lowercase letter</li>
+                <li id="number" class="rule">A minimum of one number</li>
+                <li id="special" class="rule">A minimum of one special character</li>
+            </ul>
             <input type="password" id="confirmpassword" name="confirmpassword" placeholder="Confirm new Password" required>
             <button id="create" type="button">Create Account</button>
+            <div id="errormessage"></div>
         </form>
-        <div id="errormessage"></div>
     </div>
     <div class="welcome">
         <p class="welcometitle">Welcome <br>to <br>Academic Weapons</p>
