@@ -1,6 +1,8 @@
-from flask import Blueprint, request, jsonify, render_template, flash, url_for, redirect
+from flask import Blueprint, request, jsonify, render_template, make_response
 import psycopg2
 import bcrypt
+import secrets
+import hashlib
 
 
 #creating a route named register
@@ -72,8 +74,35 @@ def register():
             #so if any of valid is false we send an error message
             return jsonify(errors), 400
         else:
-            #send a valid response if the username and password requirments are valid
-             return jsonify({'message': 'Password is Valid'}), 200
+            #username and password is valid we put it into the database
+            #hash the password
+            hashed_password = bcrypt.hashpw(password.encode(), bcrypt.gensalt())
+            
+            #generate an unique cookie id and hash it loop till we get unique cookie
+            token = secrets.token_urlsafe(16)
+            hashed_token = hashlib.sha256(token.encode()).hexdigest()
+            while True:
+                cursor.execute('SELECT * FROM users WHERE cookie = %s', (hashed_token,))
+                result = cursor.fetchone()
+                if not result:
+                    break
+                token = secrets.token_urlsafe(16)
+                hashed_token = hashlib.sha256(token.encode()).hexdigest()
+            
+            #put the username / password / token into the database
+            cursor.execute('INSERT INTO users (username, password, cookie)  VALUES (%s, %s, %s)', (username, hashed_password, hashed_token))
+            #the upload was successful
+            conn.commit()
+            cursor.close()
+            conn.close()
+            
+            # Create the response
+            response = make_response(jsonify({'message': 'Registration successful'}))
+            # Set the session token in a secure cookie
+            response.set_cookie('session_token', hashed_token, httponly=True, secure=True, max_age=3600)
+            # Return the response with the cookie
+            return response
+
         
     #send the html code to the server 
     return render_template('register.html')

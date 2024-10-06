@@ -89,7 +89,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (response.ok) {
             //there is no error and redirect them to the homepage
-            alert(result.message);
+            window.location.href = '/';
         } else {
             //display the error messages
             let messages = [];
