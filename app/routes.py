@@ -1,4 +1,4 @@
-from flask import Blueprint, request, jsonify, render_template, redirect, url_for
+from flask import Blueprint, request, jsonify, render_template, redirect, url_for, escape
 import psycopg2
 
 # Blueprint allows you to organize routes
@@ -30,7 +30,8 @@ def home():
     conn.close()
     if user:
         # Pass the username to the template
-        return render_template('index.html', username=user[0])
+        username = escape(user[0])
+        return render_template('index.html', username=username)
     else:
         return redirect(url_for('register.register'))
 

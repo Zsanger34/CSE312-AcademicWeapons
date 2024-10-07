@@ -45,6 +45,9 @@ body{
 .registrationForm input.match{
     border-bottom: 1.5px solid green;
 }
+.registrationForm input.no-match {
+    border-bottom: 1.5px solid red;
+}
 .registrationForm button{
     margin: 2rem;
     height: 2rem;

@@ -1,15 +1,27 @@
-document.getElementById('confirmpassword').addEventListener('input', function (){
+// Function to validate the matching of passwords
+function validatePassword() {
     const password = document.getElementById('password').value;
     const confirmpassword = document.getElementById('confirmpassword').value;
 
-    if(password === confirmpassword){
+    if (password === confirmpassword && password !== '') {
+        // When passwords match
+        document.getElementById('password').classList.remove('no-match');
         document.getElementById('password').classList.add('match');
-        document.getElementById('confirmpassword').classList.add('match')
-    }else{
+        document.getElementById('confirmpassword').classList.remove('no-match');
+        document.getElementById('confirmpassword').classList.add('match');
+    } else {
+        // When passwords do not match
         document.getElementById('password').classList.remove('match');
-        document.getElementById('confirm-password').classList.remove('match');
+        document.getElementById('confirmpassword').classList.remove('match');
+        document.getElementById('confirmpassword').classList.add('no-match');
+        document.getElementById('password').classList.remove('no-match'); 
     }
-});
+}
+
+// Add event listeners to both password fields
+document.getElementById('password').addEventListener('input', validatePassword);
+document.getElementById('confirmpassword').addEventListener('input', validatePassword);
+
 document.getElementById('password').addEventListener('input', function() {
     const password = this.value;
     
