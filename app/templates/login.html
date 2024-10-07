@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+</head>
+<body>
+    <div class="loginpage">
+        <form class="registrationForm" enctype="application/x-www-form-urlencoded">
+            <p class="title">Create Your Account</p>
+            <input type="text" id="username" name="username" pattern="^\S+$" placeholder="Enter Username" required>
+            <input type="password" id="password" name="password" placeholder="Create a Password" required>
+            <ul class="password-rules">
+                <li id="length" class="rule">A minimum of 10 characters</li>
+                <li id="uppercase" class="rule">Contains an uppercase letter</li>
+                <li id="lowercase" class="rule">Contains a lowercase letter</li>
+                <li id="number" class="rule">A minimum of one number</li>
+                <li id="special" class="rule">A minimum of one special character</li>
+            </ul>
+            <input type="password" id="confirmpassword" name="confirmpassword" placeholder="Confirm new Password" required>
+            <button id="create" type="button">Login</button>
+        </form>
+    </div>
+</body>
+</html>
