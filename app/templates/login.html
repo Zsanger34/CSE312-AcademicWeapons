@@ -7,21 +7,19 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
 </head>
 <body>
+    <div class="welcome">
+        <p class="welcometitle">Welcome Back<br>to<br>Academic Weapons</p>
+    </div>
     <div class="loginpage">
-        <form class="registrationForm" enctype="application/x-www-form-urlencoded">
-            <p class="title">Create Your Account</p>
-            <input type="text" id="username" name="username" pattern="^\S+$" placeholder="Enter Username" required>
-            <input type="password" id="password" name="password" placeholder="Create a Password" required>
-            <ul class="password-rules">
-                <li id="length" class="rule">A minimum of 10 characters</li>
-                <li id="uppercase" class="rule">Contains an uppercase letter</li>
-                <li id="lowercase" class="rule">Contains a lowercase letter</li>
-                <li id="number" class="rule">A minimum of one number</li>
-                <li id="special" class="rule">A minimum of one special character</li>
-            </ul>
-            <input type="password" id="confirmpassword" name="confirmpassword" placeholder="Confirm new Password" required>
-            <button id="create" type="button">Login</button>
+        <form class="loginForm" enctype="application/x-www-form-urlencoded">
+            <p class="title">Login Now</p>
+            <input type="text" id="username" name="username" placeholder="Enter Your Username" required>
+            <input type="password" id="password" name="password" placeholder="Enter Your Password" required>
+            <button id="login" type="button">Login</button>
+            <div id="errormessage"></div>
         </form>
     </div>
+
+    <script src="{{ url_for('static', filename='js/login.js') }}"></script>
 </body>
 </html>

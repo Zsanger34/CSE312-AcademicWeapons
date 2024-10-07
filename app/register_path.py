@@ -76,8 +76,10 @@ def register():
         else:
             #username and password is valid we put it into the database
             #hash the password
-            hashed_password = bcrypt.hashpw(password.encode(), bcrypt.gensalt())
-            
+            salt = bcrypt.gensalt()
+            db_salt = salt.decode('utf-8')
+            hashed_password = bcrypt.hashpw(password.encode(), salt)
+            db_password = hashed_password.decode('utf-8')
             #generate an unique cookie id and hash it loop till we get unique cookie
             token = secrets.token_urlsafe(16)
             hashed_token = hashlib.sha256(token.encode()).hexdigest()
@@ -90,7 +92,7 @@ def register():
                 hashed_token = hashlib.sha256(token.encode()).hexdigest()
             
             #put the username / password / token into the database
-            cursor.execute('INSERT INTO users (username, password, cookie)  VALUES (%s, %s, %s)', (username, hashed_password, hashed_token))
+            cursor.execute('INSERT INTO users (username, password, salt, cookie)  VALUES (%s, %s, %s, %s)', (username, db_password, db_salt, hashed_token))
             #the upload was successful
             conn.commit()
             cursor.close()
