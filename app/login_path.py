@@ -58,7 +58,7 @@ def login():
             else:
                 #the passwords do match
                 
-                #get the cookie
+                #generate a new cookie to set it into the database
                 cursor.execute('SELECT cookie FROM users WHERE username = %s', (username,))
                 database_cookie = cursor.fetchone()[0]
                 

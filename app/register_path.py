@@ -100,7 +100,9 @@ def register():
             
             # Create the response
             response = make_response(jsonify({'message': 'Registration successful'}))
-            # Set the session token in a secure cookie
+            
+            #Set the session token in a secure cookie
+            #set the unhashed cookie in this response      (--)
             response.set_cookie('session_token', hashed_token, httponly=True, secure=True, max_age=3600)
             # Return the response with the cookie
             return response
