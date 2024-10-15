@@ -38,3 +38,10 @@ def validatePassword(password, confirmpassword):
         return (False, "passwords do not meet the criteria")
     
     return (True, "both passwords are the same and meet the criteria")
+
+
+
+
+def validateUser(authToken):
+
+    return True

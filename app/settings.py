@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify, render_template, make_response
-from helper import *
+from app.helper import *
 import psycopg2
 import bcrypt
 
@@ -22,6 +22,15 @@ def get_db_connection():
 
 @settings_routes.route('/settings', methods=['GET'])
 def settingsPage():
+    # authToken = request.cookies.get("session_token", False)
+    # if authToken == False:
+    #     return render_template('404.html')
+    
+    # foundUser = validateUser(authToken)
+    # if foundUser == False:
+    #     return render_template('404.html')
+
+
     return render_template('settings.html')
 
 
@@ -29,7 +38,7 @@ def settingsPage():
 def changePassword():
     #retrieve all the needed data
     data = request.get_json()
-    confirmOldPassword = data.get("confirmPassword", False)
+    confirmOldPassword = data.get("confirmOldPassword", False)
     newPassword = data.get("newPassword", False)
     confirmNewPassword = data.get("confirmNewPassword", False)
     authToken = request.cookies.get("session_token", False)
@@ -87,3 +96,8 @@ def changeUserName():
     data= request.get_json()
     oldUserName = data.get("oldUserName", False)
     newUserName = data.get("newUserName", False)
+    authToken = request.cookies.get("session_token", False)
+
+    if oldUserName == False or newUserName == False:
+        #return a response saying that the usernames are incorrect
+        return
