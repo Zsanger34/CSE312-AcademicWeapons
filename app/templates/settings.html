@@ -8,7 +8,52 @@
 
 </head>
 <body>
-    <h1>Settings</h1>
+    <div class="Settings Header">
+        <h1>Settings</h1>
+    </div>
 
+
+    <div class="settingsPage">
+
+        <div class="settingItem" onclick="toggleDropdown('changeUserName')">
+            Change Username
+        </div>
+        <div class="dropDownForms" id="changeUserName">
+            <form id="changeUserName" class="changeUserName" enctype="application/x-www-form-urlencoded">
+                <label>Old Username:
+                    <input type="text" name="oldUserName" required/>
+                </label>
+                <br/>
+                <label>New Username:&nbsp;
+                    <input type="text" name="newUserName" required/>
+                </label>
+                <button id="newUserNameButton" type="button" onclick="NewUserNameForm()">Change Username</button>
+            </form>
+        </div>
+
+        <br/>
+
+        <div class="settingItem" onclick="toggleDropdown('changePassword')">
+            Change Password
+        </div>
+        <div class="dropDownForms" id="changePassword">
+            <form id="changePassword" class="changePassword" enctype="application/x-www-form-urlencoded">
+                <label>Confirm Old Password:
+                    <input type="password" name="oldPassword" id="confirmOldPassword" required/>
+                </label>
+                <br/>
+                <label>New Password:&nbsp;
+                    <input type="password" name="newPassword" id="newPassword" required/>
+                </label>
+                <br/>
+                <label>Confirm New Password:&nbsp;
+                    <input type="password" name="confirmNewPassword" id="confirmNewPassword" required/>
+                </label>
+                <button id="newPasswordButton" type="button" onclick="newPasswordForm()">Change Password</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/settings.js') }}"></script>
 </body>
 </html>
