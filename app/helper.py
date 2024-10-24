@@ -67,10 +67,13 @@ def validateUser(authToken):
     result = cursor.fetchone()
 
     if result is None:
+        cursor.close()
+        conn.close()
         return (False, None)
     else:
         user = result[0]
     
 
-
+    cursor.close()
+    conn.close()
     return (True, user)

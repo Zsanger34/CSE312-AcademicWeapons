@@ -2,6 +2,7 @@ from flask import Blueprint, request, jsonify, render_template, make_response
 from app.helper import *
 import psycopg2
 import bcrypt
+import html
 
 
 
@@ -43,8 +44,6 @@ def changePassword():
         return jsonify({"errorMessage": "You are not properly authorized"}), 403
 
 
-
-
     #retrieve all the needed data
     data = request.get_json()
     confirmOldPassword = data.get("confirmOldPassword", False)
@@ -54,7 +53,7 @@ def changePassword():
 
     if confirmOldPassword == False or newPassword == False or confirmNewPassword == False:
         #all the data was not sent return a error response
-        return
+        return 
 
     if authToken == False:
         #return a response saying there was an issue with the auth token
@@ -77,6 +76,8 @@ def changePassword():
 
     if hashedConfrimPassword != dataBasePassword:
         #return an error saying that the old password do not match and try again
+        cursor.close()
+        conn.close()
         return jsonify({"errorMessage": "old password is incorrect"}), 400
     else:
         #check to see if the newPasswords meets the criteria and also check if the 
@@ -84,10 +85,19 @@ def changePassword():
 
         if validPasswordCheck == False:
             #return a response saying there was something wrong with the new passwords and use the given message
+            cursor.close()
+            conn.close()
             return jsonify({"errorMessage": message}), 400
         
         else:
             #make the change in the database and return a 200 ok, with the message saying the passwords has been changed
+            newSalt = bcrypt.gensalt()
+            hashNewPassword = bcrypt.hashpw(newPassword, newSalt)
+            cursor.execute("UPDATE users SET password = %s AND salt = %s WHERE username = %s", (hashNewPassword, newSalt, user))
+
+            #send a 200 ok response
+            cursor.close()
+            conn.close()
             response = make_response(jsonify({'message': message}))
             return response
 
@@ -108,8 +118,28 @@ def changeUserName():
     data= request.get_json()
     oldUserName = data.get("oldUserName", False)
     newUserName = data.get("newUserName", False)
+    newUserName = html.escape(newUserName)
     authToken = request.cookies.get("session_token", False)
 
+    #first check if we were able to obtain all the data we need
     if oldUserName == False or newUserName == False:
-        #return a response saying that the usernames are incorrect
         return
+    
+
+    #check to see if the old username matches what is stored in the database
+    if oldUserName != user:
+        return make_response(jsonify({'errorMessage': "OldUsername did not match current username"})), 400
+    
+
+    #since it matches update the user's username
+    con = get_db_connection()
+    cursor = con.cursor()
+    cursor.execute("UPDATE users SET username = %s WHERE username = %s", (newUserName, oldUserName))
+
+    con.close()
+    cursor.close()
+
+    return make_response(jsonify({"message": "username Updated Succesfully"})), 200
+    
+    
+
