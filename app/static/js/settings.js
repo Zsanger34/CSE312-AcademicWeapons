@@ -12,12 +12,14 @@ function toggleDropdown(dropDownFormID){
 
 
 function NewUserNameForm(){
+    const oldUsername = document.getElementById("oldUserName").value;
+    const newUserName = document.getElementById("newUserName").value;
 
 }
 
 
 function newPasswordForm(){
-    const confirmOldPassword = document.getElementById("confirmOldPassword").value
-    const newPassword = document.getElementById("newPassword").value
-    const confirmNewPassword = document.getElementById("confirmNewPassword").value
+    const confirmOldPassword = document.getElementById("confirmOldPassword").value;
+    const newPassword = document.getElementById("newPassword").value;
+    const confirmNewPassword = document.getElementById("confirmNewPassword").value;
 }

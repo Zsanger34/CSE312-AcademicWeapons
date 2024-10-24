@@ -36,6 +36,15 @@ def settingsPage():
 
 @settings_routes.route('/settings/changePassword', methods=['POST'])
 def changePassword():
+
+    #check if the user is a valid user
+    (userFound, user) = validateUser(authToken)
+    if userFound == False:
+        return jsonify({"errorMessage": "You are not properly authorized"}), 403
+
+
+
+
     #retrieve all the needed data
     data = request.get_json()
     confirmOldPassword = data.get("confirmOldPassword", False)
@@ -54,16 +63,13 @@ def changePassword():
     conn = get_db_connection()
     cursor = conn.cursor()
 
-    #check to see if the auth token is correct
-    cursor.execute('SELECT * FROM users WHERE cookie = %s', (authToken,))
+
+    #now obtain the proper information to change the password
+    cursor.execute('SELECT * FROM users WHERE username = %s', (user,))
     result = cursor.fetchone()
 
-    if result is None:
-        #This means that the auth Token is wrong and return an error 403 response
-        return jsonify({"errorMessage": "You are not properly autherized"}), 403
     
     # check if the old password is the same as the password in the database
-    username = result[0]
     dataBasePassword = result[1]
     salt = result[2]
 
@@ -93,6 +99,12 @@ def changePassword():
 
 @settings_routes.route('/settings/changeUserName', methods=['POST'])
 def changeUserName():
+
+    #check if the user is a valid user
+    (userFound, user) = validateUser(authToken)
+    if userFound == False:
+        return jsonify({"errorMessage": "You are not properly authorized"}), 403
+
     data= request.get_json()
     oldUserName = data.get("oldUserName", False)
     newUserName = data.get("newUserName", False)

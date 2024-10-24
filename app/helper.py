@@ -1,7 +1,18 @@
 from flask import Blueprint, request, jsonify, render_template, make_response
 import psycopg2
 import bcrypt
+import hashlib
 
+
+#Connecto to the SQL Database
+DB_HOST = 'db'  
+DB_NAME = 'mydatabase'
+DB_USER = 'postgres'
+DB_PASSWORD = 'mysecretpassword'
+
+def get_db_connection():
+    conn = psycopg2.connect(host=DB_HOST, database=DB_NAME, user=DB_USER, password=DB_PASSWORD)
+    return conn
 
 
 def validatePassword(password, confirmpassword):
@@ -43,5 +54,23 @@ def validatePassword(password, confirmpassword):
 
 
 def validateUser(authToken):
+    conn = get_db_connection()
+    user = ""
 
-    return True
+    hash = hashlib.sha256()
+    hash.update(authToken.encode('utf-8'))
+    authTokenHashed = hash.hexdigest()
+
+    cursor = conn.cursor()
+    #check to see if the auth token is correct
+    cursor.execute('SELECT * FROM users WHERE cookie = %s', (authTokenHashed,))
+    result = cursor.fetchone()
+
+    if result is None:
+        return (False, None)
+    else:
+        user = result[0]
+    
+
+
+    return (True, user)
