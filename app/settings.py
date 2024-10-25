@@ -23,13 +23,13 @@ def get_db_connection():
 
 @settings_routes.route('/settings', methods=['GET'])
 def settingsPage():
-    # authToken = request.cookies.get("session_token", False)
-    # if authToken == False:
-    #     return render_template('404.html')
+    authToken = request.cookies.get("session_token", False)
+    if authToken == False:
+        return render_template('404.html')
     
-    # foundUser = validateUser(authToken)
-    # if foundUser == False:
-    #     return render_template('404.html')
+    foundUser = validateUser(authToken)
+    if foundUser == False:
+        return render_template('404.html')
 
 
     return render_template('settings.html')
