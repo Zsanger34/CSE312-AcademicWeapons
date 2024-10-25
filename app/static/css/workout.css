@@ -1,0 +1,54 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+.week_container{
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+}
+.week{
+    height: 80vh;
+    width: 70%;
+}
+.week_container p{
+    margin: 25px 0;
+    font-size: larger;
+}
+.weekdays{
+    list-style-type: none;
+    display: flex;
+    flex-direction: row;
+}
+.day{
+    border: 1px solid black;
+    height: 50vh;
+    width: 25%;
+    margin: 0 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.weekends{
+    list-style-type: none;
+    display: flex;
+    flex-direction: row;
+}
+.endday{
+    border: 1px solid black;
+    height: 17vh;
+    width: 50%;
+    margin: 20px 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.dayside{
+    transform: rotate(270deg);
+}

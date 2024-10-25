@@ -83,6 +83,7 @@ def register():
             #generate an unique cookie id and hash it loop till we get unique cookie
             token = secrets.token_urlsafe(16)
             hashed_token = hashlib.sha256(token.encode()).hexdigest()
+            
             while True:
                 cursor.execute('SELECT * FROM users WHERE cookie = %s', (hashed_token,))
                 result = cursor.fetchone()
