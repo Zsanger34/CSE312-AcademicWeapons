@@ -1,5 +1,6 @@
-from flask import Blueprint, request, jsonify, render_template
+from flask import Blueprint, request, jsonify, render_template, redirect, url_for, escape, make_response
 import psycopg2
+import hashlib
 
 # Blueprint allows you to organize routes
 main_routes = Blueprint('main', __name__)
@@ -15,24 +16,35 @@ def get_db_connection():
     return conn
 
 # Define the home route
-@main_routes.route('/')
+@main_routes.route('/', methods=['GET', 'POST'])
 def home():
-    return render_template('index.html')
+    
+    #get the cookie if the user is logged in
+    #the token is going to be plain text
+    session_token = request.cookies.get('session_token')
+    if not session_token:
+        return redirect(url_for('register.register'))
 
-# Define the login route
-@main_routes.route('/login', methods=['POST'])
-def login():
-    username = request.form['username']
-    password = request.form['password']
+    #check to see if we got a post request.
+    if request.method == "POST":
+        #the user is logged out and now we clear the cookie token
+        response = make_response(jsonify({'message': 'Registration successful'}))
+        response.set_cookie('session_token', session_token, httponly=True, secure=True, max_age=-3600)
+        return response
 
+    # Query the database for the user if user is logged in get their information
+    #hash the token taken from the session_token above code to look up the users info
+    #hashed_token = hashlib.sha256(session_token.encode()).hexdigest()
     conn = get_db_connection()
-    cur = conn.cursor()
-    cur.execute("SELECT * FROM users WHERE username = %s AND password = %s", (username, password))
-    user = cur.fetchone()
-    cur.close()
+    cursor = conn.cursor()
+    cursor.execute('SELECT username FROM users WHERE cookie = %s', (session_token,))
+    user = cursor.fetchone()
+    cursor.close()
     conn.close()
-
     if user:
-        return jsonify({'message': 'Login successful!'}), 200
+        # Pass the username to the template
+        username = escape(user[0])
+        return render_template('index.html', username=username)
     else:
-        return jsonify({'message': 'Invalid username or password!'}), 401
+        return redirect(url_for('register.register'))
+

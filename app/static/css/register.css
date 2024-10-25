@@ -1,0 +1,94 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+body{
+    display: flex;
+    flex-direction: row;
+}
+.registpage{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50%;
+    height: 100vh;
+    flex-direction: column;
+    background-color: white;
+}
+.registrationForm{
+    overflow: none;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 42rem;
+    height: 40rem;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+}
+.title{
+    margin-bottom: 2rem;
+    font-weight: 800;
+    font-size: 1.5rem;
+}
+.registrationForm input{
+    margin: 0.6rem 0;
+    height: 2rem;
+    width: 28rem;
+    padding: 5px;
+    border: none;
+    border-bottom: 1.5px solid lightgrey;
+    outline: none;
+}
+.registrationForm input.match{
+    border-bottom: 1.5px solid green;
+}
+.registrationForm input.no-match {
+    border-bottom: 1.5px solid red;
+}
+.registrationForm button{
+    margin: 2rem;
+    height: 2rem;
+    width: 15rem;
+    border-radius: 0.3rem;
+    color: white;
+    background-color: black;
+    border: none;
+}
+.welcome{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 50%;
+    height: 100vh;
+    position: relative;
+    background-color: black;
+}
+.welcome p{
+    position: absolute;
+    text-align: center;
+    color: white;
+    line-height: 2rem;
+}
+#errormessage ul{
+    color: red;
+    list-style-type: none;
+    text-align: center;
+}
+#errormessage li{
+    margin-bottom: 15px;
+    font-size: small;
+}
+.password-rules{
+    margin: 1rem 0;
+}
+.rule{
+    font-size: small;
+    color: grey;
+}
+.rule.valid {
+    color: green;
+}

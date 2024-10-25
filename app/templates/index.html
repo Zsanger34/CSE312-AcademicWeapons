@@ -3,25 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Academic Weapons Web Application</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <title>RoutineFlex - Home</title>
+    <link rel="stylesheet" href="../static/css/homepage.css">
 </head>
 <body>
     <div class="container">
-        <header>
-            <h1>Welcome to Academic Weapons</h1>
-            <h2>Your Hub for Knowledge & Success</h2>
-        </header>
+        <!-- Left Sidebar Navigation -->
+        <nav class="sidebar">
+            <h1 class="logo">RoutineFlex</h1>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Search</a></li>
+                <li><a href="#">Explore</a></li>
+                <li><a href="#">Messages</a></li>
+                <li><a href="#">Notifications</a></li>
+                <li><a href="#">Create</a></li>
+                <li><a href="#">Profile</a></li>
+            </ul>
+        </nav>
 
-        <main>
-            <p>This is the launchpad for your academic journey. We provide the tools, resources, and insights to arm you with knowledge for success!</p>
+        <!-- Main Content Area -->
+        <main class="content">
+            <section class="feed-item">
+                <img src="../static/images/workout1.jpg" alt="Workout Example 1">
+                <p>Push yourself to the limit! 💪 #Strength</p>
+            </section>
+            <section class="feed-item">
+                <img src="../static/images/workout2.jpg" alt="Workout Example 2">
+                <p>Flexibility in progress. #Yoga</p>
+            </section>
+            <section class="feed-item">
+                <img src="../static/images/workout3.jpg" alt="Workout Example 3">
+                <p>Endurance training on point! 🏃 #Cardio</p>
+            </section>
         </main>
 
-        <footer>
-            <p>© 2024 Academic Weapons. Aim high, hit your targets.</p>
-        </footer>
+        <!-- Right Sidebar Profile -->
+        <aside class="profile-sidebar">
+            <div class="profile-card">
+                <h2>Username</h2>
+                <p>Suggested Profiles</p>
+                <ul>
+                    <li><a href="#">Follow @example1</a></li>
+                    <li><a href="#">Follow @example2</a></li>
+                    <li><a href="#">Follow @example3</a></li>
+                </ul>
+            </div>
+        </aside>
     </div>
 
-    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <script src="../static/js/homepage.js"></script>
 </body>
 </html>
