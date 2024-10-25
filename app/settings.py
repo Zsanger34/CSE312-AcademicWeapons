@@ -41,7 +41,7 @@ def changePassword():
     #check if the user is a valid user
     (userFound, user) = validateUser(authToken)
     if userFound == False:
-        return jsonify({"errorMessage": "You are not properly authorized"}), 403
+        return make_response(render_template('404.html'), 404)
 
 
     #retrieve all the needed data
