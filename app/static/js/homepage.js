@@ -58,3 +58,25 @@ async function likeMessage(messageId) {
         alert('Error liking the message.');
     }
 }
+
+async function loadPosts()
+{
+    const response = await fetch('/api/posts');
+    const post_data = await response.json();
+    const content = document.getElementById('content');
+
+    post_data.posts.forEach(post -> {
+    //Added each post to the html in the format
+//    <section class="feed-item">
+//                <img src="../static/images/workout1.jpg" alt="Workout Example 1">
+//                <p>Push yourself to the limit! 💪 #Strength</p>
+//    </section>
+    const section = document.createElement('section');
+    section.classList.add('feed-item');
+    const p = document.createElement('p');
+    p.textContent = post.content;
+    section.appendChild(p);
+    content.appendChild(section);
+    });
+
+}
