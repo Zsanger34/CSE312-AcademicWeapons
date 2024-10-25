@@ -22,6 +22,7 @@ def home():
     #get the cookie if the user is logged in
     #the token is going to be plain text
     session_token = request.cookies.get('session_token')
+    hashed_token = hashlib.sha256(session_token.encode()).hexdigest()
     if not session_token:
         return redirect(url_for('register.register'))
 
@@ -37,7 +38,7 @@ def home():
     #hashed_token = hashlib.sha256(session_token.encode()).hexdigest()
     conn = get_db_connection()
     cursor = conn.cursor()
-    cursor.execute('SELECT username FROM users WHERE cookie = %s', (session_token,))
+    cursor.execute('SELECT username FROM users WHERE cookie = %s', (hashed_token,))
     user = cursor.fetchone()
     cursor.close()
     conn.close()
