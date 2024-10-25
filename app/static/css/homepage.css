@@ -1,5 +1,3 @@
-/* styles.css */
-
 /* Reset basic styles */
 * {
     margin: 0;
@@ -7,40 +5,41 @@
     box-sizing: border-box;
 }
 
-/* Base styling */
 body {
     font-family: 'Poppins', Arial, sans-serif;
-    background-color: #121212; /* Dark background */
-    color: #e0e0e0; /* Light text */
+    background-color: #121212; /* Black background */
+    color: #e0e0e0; /* Silver-like text */
 }
 
 /* Container holding the layout */
 .container {
     display: grid;
-    grid-template-columns: 220px 2.5fr 1fr; /* Layout for sidebar, content, and profile sidebar */
+    grid-template-columns: 220px 2.5fr 1fr;
     height: 100vh;
     overflow: hidden;
 }
 
 /* Sidebar (Left Navigation) */
 .sidebar {
-    background-color: #1c1c1c;
-    padding: 1rem;
+    background-color: #1a1a1a; /* Dark black/gray */
+    padding: 1rem 0;
+    text-align: left;
     display: flex;
     flex-direction: column;
-    text-align: left;
     align-items: flex-start;
+    padding-left: 1rem;
 }
 
 .sidebar .logo {
+    font-family: 'Poppins', sans-serif;
     font-size: 1.8rem;
-    color: #ffffff;
+    color: #e0e0e0; /* Silver-like */
     margin-bottom: 2rem;
 }
 
 .sidebar ul {
-    list-style: none;
-    width: 100%;
+    list-style-type: none;
+    padding-left: 0;
 }
 
 .sidebar ul li {
@@ -48,7 +47,7 @@ body {
 }
 
 .sidebar ul li a {
-    color: #e0e0e0;
+    color: #b3b3b3; /* Light silver for inactive links */
     text-decoration: none;
     font-size: 1.2rem;
     padding-left: 1rem;
@@ -57,35 +56,33 @@ body {
 }
 
 .sidebar ul li a:hover {
-    color: #fff;
-    padding-left: 1.5rem;
+    color: #e0e0e0; /* Silver on hover */
 }
 
 /* Main Content Area */
 .content {
-    overflow-y: auto;
+    overflow-y: scroll;
     padding: 2rem;
     border-left: 1px solid #2a2a2a;
     border-right: 1px solid #2a2a2a;
 }
 
-/* Feed items - large images and Instagram-style description */
 .feed-item {
-    background-color: #1e1e1e;
+    background-color: #1c1c1c; /* Dark background */
     margin-bottom: 2rem;
     padding: 1rem;
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Slight shadow */
     transition: transform 0.3s ease;
 }
 
 .feed-item img, .feed-item video {
     width: 100%;
     height: auto;
-    max-height: 600px; /* Controls maximum image height */
-    object-fit: contain; /* Ensures the whole image is visible within the area */
+    max-height: 600px;
+    object-fit: contain;
     border-radius: 8px;
-    background-color: #1c1c1c; /* Background for any padding */
+    background-color: #333; /* Darker gray as background */
 }
 
 .feed-item:hover {
@@ -94,55 +91,103 @@ body {
 
 .feed-item p {
     margin-top: 1rem;
-    color: #b3b3b3;
-    font-size: 1.1rem; /* Larger font size for description */
+    color: #c0c0c0; /* Slightly lighter silver text */
+    font-size: 1.1rem;
     font-weight: 500;
     line-height: 1.5;
-    color: #e0e0e0;
 }
 
-/* Right Sidebar (Profile Section) */
+/* Right Sidebar (Post Button) */
 .profile-sidebar {
-    background-color: #1c1c1c;
+    background-color: #1a1a1a; /* Dark sidebar */
     padding: 2rem;
+    color: #e0e0e0; /* Silver text */
+}
+
+/* Post Button */
+.post-btn {
+    display: block;
+    width: 100%;
+    padding: 1rem;
+    font-size: 1.2rem;
+    background-color: #1c1c1c; /* Black for the button */
+    color: #c0c0c0; /* Silver for text */
+    border: 1px solid #333; /* Dark border */
+    border-radius: 25px;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.3s ease;
+}
+
+.post-btn:hover {
+    background-color: #ff4b4b; /* Red accent for hover */
     color: #e0e0e0;
 }
 
-.profile-card h2 {
-    font-size: 1.5rem;
-    color: #f5f5f5;
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); /* Black overlay */
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: #1c1c1c; /* Dark modal background */
+    padding: 2rem;
+    border-radius: 15px;
+    width: 400px;
+    text-align: center;
+    position: relative;
+}
+
+textarea {
+    width: 100%;
+    height: 100px;
+    padding: 10px;
     margin-bottom: 1rem;
-}
-
-.profile-card p {
-    font-size: 1.2rem;
-    margin-bottom: 1rem;
-}
-
-.profile-card ul {
-    list-style: none;
-}
-
-.profile-card ul li {
-    margin-bottom: 1rem;
-}
-
-.profile-card ul li a {
-    color: #b3b3b3;
-    text-decoration: none;
-    transition: color 0.3s ease;
-}
-
-.profile-card ul li a:hover {
-    color: #fff;
-}
-
-/* Custom Scrollbar */
-.content::-webkit-scrollbar {
-    width: 6px;
-}
-
-.content::-webkit-scrollbar-thumb {
-    background-color: #888;
     border-radius: 10px;
+    background-color: #2d2d2d; /* Dark input background */
+    color: #e0e0e0; /* Silver text */
+    border: 1px solid #3d3d3d;
+    resize: none;
+}
+
+textarea::placeholder {
+    color: #888; /* Lighter placeholder */
+}
+
+.submit-post-btn {
+    padding: 10px 20px;
+    font-size: 1rem;
+    background-color: #ff4b4b; /* Red accent for button */
+    color: #e0e0e0; /* Silver text */
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.submit-post-btn:hover {
+    background-color: #d12f2f; /* Darker red on hover */
+}
+
+/* Close button in modal */
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    color: #e0e0e0; /* Silver */
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.close-btn:hover {
+    color: #ff4b4b; /* Red accent for hover */
 }

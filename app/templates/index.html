@@ -38,18 +38,20 @@
             </section>
         </main>
 
-        <!-- Right Sidebar Profile -->
+        <!-- Right Sidebar (Post Button) -->
         <aside class="profile-sidebar">
-            <div class="profile-card">
-                <h2>Username</h2>
-                <p>Suggested Profiles</p>
-                <ul>
-                    <li><a href="#">Follow @example1</a></li>
-                    <li><a href="#">Follow @example2</a></li>
-                    <li><a href="#">Follow @example3</a></li>
-                </ul>
-            </div>
+            <button id="postButton" class="post-btn">Post</button>
         </aside>
+
+        <!-- Modal for Creating a Post -->
+        <div id="postModal" class="modal">
+            <div class="modal-content">
+                <span class="close-btn">&times;</span>
+                <h2>Create a Post</h2>
+                <textarea id="postContent" placeholder="What is happening?!"></textarea>
+                <button id="submitPost" class="submit-post-btn">Post</button>
+            </div>
+        </div>
     </div>
 
     <script src="../static/js/homepage.js"></script>
