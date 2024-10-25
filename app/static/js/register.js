@@ -116,3 +116,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     });//end of button submit
 });
+function LoginPage(){
+    window.location.href = "/login";
+}
