@@ -1,0 +1,22 @@
+.settingItem{
+    background-color: #f0f0f0;
+    padding: 15px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: background-color 0.3s;
+}
+
+.settingItem:hover {
+    background-color: lightskyblue;
+  }
+
+
+.dropDownForms {
+    display: none;
+    padding: 10px;
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+    margin-bottom: 10px;
+    transition: max-height 0.5s ease, opacity 0.5s ease;
+}
