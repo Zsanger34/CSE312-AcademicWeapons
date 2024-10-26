@@ -83,6 +83,7 @@ def register():
             #generate an unique cookie id and hash it loop till we get unique cookie
             token = secrets.token_urlsafe(16)
             hashed_token = hashlib.sha256(token.encode()).hexdigest()
+            
             while True:
                 cursor.execute('SELECT * FROM users WHERE cookie = %s', (hashed_token,))
                 result = cursor.fetchone()
@@ -102,8 +103,8 @@ def register():
             response = make_response(jsonify({'message': 'Registration successful'}))
             
             #Set the session token in a secure cookie
-            #set the unhashed cookie in this response      (--)
-            response.set_cookie('session_token', hashed_token, httponly=True, secure=True, max_age=3600)
+            #set the unhashed cookie in this response
+            response.set_cookie('session_token', token, httponly=True, secure=True, max_age=3600)
             # Return the response with the cookie
             return response
 

@@ -1,7 +1,8 @@
 from flask import Blueprint, request, jsonify, render_template, make_response
 import psycopg2
 import bcrypt
-
+import secrets
+import hashlib
 
 #create login route
 login_route = Blueprint('login_page', __name__)
@@ -22,6 +23,7 @@ def get_db_connection():
 def login():
     if request.method == 'POST':
         
+        
         #gathering the data submitted from the frontend
         data = request.get_json()
         username = data.get('username')
@@ -40,13 +42,12 @@ def login():
             cursor.execute('SELECT password FROM users WHERE username = %s', (username,))
             database_password = cursor.fetchone()[0]
             
-            #get the sale
+            #get the password and salt and hash the current password
             cursor.execute('SELECT salt FROM users WHERE username = %s', (username,))
             salt = cursor.fetchone()[0]
             bytes_salt = salt.encode('utf-8')
             hashed_password = bcrypt.hashpw(password.encode(), bytes_salt)
-            print(f'Database: {database_password}', flush=True)
-            print(f'Form: {hashed_password}', flush=True)
+            
             
             #compare the two passwords not to make sure they are the same
             if database_password.encode('utf-8') != hashed_password:
@@ -58,18 +59,20 @@ def login():
             else:
                 #the passwords do match
                 
-                #generate a new cookie to set it into the database
-                cursor.execute('SELECT cookie FROM users WHERE username = %s', (username,))
-                database_cookie = cursor.fetchone()[0]
+                #generate an unique cookie id and hash it loop till we get unique cookie
+                token = secrets.token_urlsafe(16)
+                hashed_token = hashlib.sha256(token.encode()).hexdigest()
                 
-                #assign the cookie to the header and then redirect to the homepage
+                #update the cookie
+                cursor.execute("UPDATE users SET cookie = %s WHERE username = %s", (hashed_token, username))
                 conn.commit()
+                
                 cursor.close()
                 conn.close()
                 # Create the response
                 response = make_response(jsonify({'message': 'Registration successful'}))
                 # Set the session token in a secure cookie
-                response.set_cookie('session_token', database_cookie, httponly=True, secure=True, max_age=3600)
+                response.set_cookie('session_token', token, httponly=True, secure=True, max_age=3600)
                 # Return the response with the cookie
                 return response
             

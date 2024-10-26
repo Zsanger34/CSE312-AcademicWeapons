@@ -46,3 +46,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     });//end of button submit
 });
+function RegisterPage(){
+    window.location.href = "/register";
+}
