@@ -183,3 +183,19 @@ textarea::placeholder {
 .close-btn:hover {
     color: #ff4b4b;
 }
+.logout-btn {
+    padding: 10px 20px;
+    font-size: 1rem;
+    background-color: #ff4b4b;
+    color: #e0e0e0;
+    border: none;
+    width: 75%;
+    border-radius: 25px;
+    cursor: pointer;
+}
+.username-display{
+    font-family: 'Poppins', Arial, sans-serif;
+    font-size: large;
+    text-align: center;
+    margin-bottom: 25px;
+}

@@ -25,13 +25,6 @@ def home():
     if not session_token:
         return redirect(url_for('register.register'))
 
-    #check to see if we got a post request.
-    if request.method == "POST":
-        #the user is logged out and now we clear the cookie token
-        response = make_response(jsonify({'message': 'Registration successful'}))
-        response.set_cookie('session_token', session_token, httponly=True, secure=True, max_age=-3600)
-        return response
-
     # Query the database for the user if user is logged in get their information
     #hash the token taken from the session_token above code to look up the users info
     #hashed_token = hashlib.sha256(session_token.encode()).hexdigest()

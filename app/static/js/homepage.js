@@ -52,3 +52,6 @@ async function likeMessage(messageId) {
         alert('Error liking the message.');
     }
 }
+document.getElementById("logout").addEventListener("click", function() {
+    window.location.href = "/logout";
+});
