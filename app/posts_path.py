@@ -7,7 +7,6 @@ from psycopg2.extras import RealDictCursor
 # Blueprint setup for modularity
 posts_bp = Blueprint('posts', __name__)
 
-# Database connection function
 def get_db_connection():
     conn = psycopg2.connect(
         host='db', database='mydatabase', user='postgres', password='mysecretpassword'

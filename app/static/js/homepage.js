@@ -65,7 +65,7 @@ async function loadPosts()
     const post_data = await response.json();
     const content = document.getElementById('content');
 
-    post_data.posts.forEach(post -> {
+    post_data.posts.forEach(post => {
     //Added each post to the html in the format
 //    <section class="feed-item">
 //                <img src="../static/images/workout1.jpg" alt="Workout Example 1">
@@ -73,10 +73,36 @@ async function loadPosts()
 //    </section>
     const section = document.createElement('section');
     section.classList.add('feed-item');
-    const p = document.createElement('p');
-    p.textContent = post.content;
-    section.appendChild(p);
-    content.appendChild(section);
+
+
+    const messageContent  = document.createElement('p');
+    messageContent.textContent = post.message_content;
+    const username = document.createElement('p');
+        username.textContent = `Posted by: ${post.username}`;
+    const likes = document.createElement('p');
+        likes.textContent = `Likes: ${post.likes}`;
+    const timestamp = document.createElement('time');
+        timestamp.textContent = `Posted on: ${post.created_at}`;
+    const likebutton =  document.createElement('like-button');
+    likebutton.classList.add('like-button');
+    likebutton.textContent ="Like!"
+    likebutton.addEventListener('click', async () => {
+        const response = await likeMessage(post.message_id);
+        if (response.ok) {
+                likes.textContent = `Likes: ${post.likes + 1}`;
+            }
+    });
+        section.appendChild(messageContent);
+        section.appendChild(username);
+        section.appendChild(likes);
+        section.appendChild(timestamp);
+        section.appendChild(likebutton);
+    content.insertBefore(section, content.firstChild);
     });
 
+
 }
+
+window.onload = function() {
+    loadPosts();
+};
