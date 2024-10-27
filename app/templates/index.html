@@ -10,7 +10,6 @@
     <div class="container">
         <nav class="sidebar">
             <h1 class="logo">RoutineFlex</h1>
-            <h1>Welcome {{username}}</h1>
             <ul>
                 <li><a href="#">Home</a></li>
                 <li><a href="#">Search</a></li>
@@ -20,6 +19,7 @@
                 <li><a href="#">Create</a></li>
                 <li><a href="#">Profile</a></li>
             </ul>
+            <button id="logout" class="logout-btn">Logout</button>
         </nav>
 
 
@@ -41,6 +41,7 @@
         </main>
 
         <aside class="profile-sidebar">
+            <h1 class="username-display">Welcome, {{username}}!</h1>
             <button id="postButton" class="post-btn">Post</button>
         </aside>
 

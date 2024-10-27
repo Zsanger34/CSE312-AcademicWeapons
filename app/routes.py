@@ -27,6 +27,7 @@ def home():
     if not session_token:
         return redirect(url_for('register.register'))
 
+
     # check to see if we got a post request.
     if request.method == "POST":
         # the user is logged out and now we clear the cookie token
