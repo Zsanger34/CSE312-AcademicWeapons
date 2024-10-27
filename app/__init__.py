@@ -15,7 +15,6 @@ def create_app():
     app.register_blueprint(register_route)
     app.register_blueprint(login_route)
     app.register_blueprint(posts_bp)
-    app.register_blueprint(logout_routes)
     app.register_blueprint(get_post_api)
     app.register_blueprint(logout_routes)
 
