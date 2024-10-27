@@ -28,7 +28,9 @@ def home():
     else: 
         hashed_token = hashlib.sha256(session_token.encode()).hexdigest()
 
-    #check to see if we got a post request.
+
+
+    # check to see if we got a post request.
     if request.method == "POST":
         #the user is logged out and now we clear the cookie token
         response = make_response(jsonify({'message': 'Registration successful'}))

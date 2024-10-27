@@ -53,6 +53,10 @@ async function likeMessage(messageId) {
     }
 }
 
+document.getElementById("logout").addEventListener("click", function() {
+    window.location.href = "/logout";
+});
+
 async function loadPosts()
 {
     const response = await fetch('/api/posts');
