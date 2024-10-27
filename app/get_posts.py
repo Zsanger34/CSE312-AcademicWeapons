@@ -25,7 +25,6 @@ def get_posts():
 
     # Id, What Message is, Like Counter
     posts = cursor.fetchall()
-    print(f"THis is the user {posts[1][1]}", flush=True)
     cursor.close()
     conn.close()
     posts_organized = []
