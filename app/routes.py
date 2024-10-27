@@ -6,28 +6,38 @@ import hashlib
 main_routes = Blueprint('main', __name__)
 
 # Database connection settings
-DB_HOST = 'db'  
+DB_HOST = 'db'
 DB_NAME = 'mydatabase'
 DB_USER = 'postgres'
 DB_PASSWORD = 'mysecretpassword'
+
 
 def get_db_connection():
     conn = psycopg2.connect(host=DB_HOST, database=DB_NAME, user=DB_USER, password=DB_PASSWORD)
     return conn
 
+
 # Define the home route
 @main_routes.route('/', methods=['GET', 'POST'])
 def home():
-    
-    #get the cookie if the user is logged in
-    #the token is going to be plain text
+    # get the cookie if the user is logged in
+    # the token is going to be plain text
     session_token = request.cookies.get('session_token')
+    hashed_token = hashlib.sha256(session_token.encode()).hexdigest()
     if not session_token:
         return redirect(url_for('register.register'))
 
+
+    # check to see if we got a post request.
+    if request.method == "POST":
+        # the user is logged out and now we clear the cookie token
+        response = make_response(jsonify({'message': 'Registration successful'}))
+        response.set_cookie('session_token', session_token, httponly=True, secure=True, max_age=-3600)
+        return response
+
     # Query the database for the user if user is logged in get their information
-    #hash the token taken from the session_token above code to look up the users info
-    #hashed_token = hashlib.sha256(session_token.encode()).hexdigest()
+    # hash the token taken from the session_token above code to look up the users info
+    # hashed_token = hashlib.sha256(session_token.encode()).hexdigest()
     conn = get_db_connection()
     cursor = conn.cursor()
     hashed_token = hashlib.sha256(session_token.encode()).hexdigest()
@@ -43,4 +53,3 @@ def home():
         return render_template('index.html', username=username)
     else:
         return redirect(url_for('register.register'))
-
