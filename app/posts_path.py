@@ -3,6 +3,7 @@
 from flask import Blueprint, request, jsonify
 import psycopg2
 from psycopg2.extras import RealDictCursor
+import hashlib
 
 # Blueprint setup for modularity
 posts_bp = Blueprint('posts', __name__)
@@ -19,13 +20,19 @@ def create_message():
     data = request.get_json()
     user_id = data.get('user_id')
     message_content = data.get('message_content')
-
+    
     conn = get_db_connection()
     cursor = conn.cursor()
+    #lets make a new user_id
+    session_token = request.cookies.get('session_token')
+    hashed_token = hashlib.sha256(session_token.encode()).hexdigest()
+    cursor.execute('SELECT id FROM users WHERE cookie = %s', (hashed_token,))
+    user = cursor.fetchone()[0]
+    
     cursor.execute("""
         INSERT INTO messages (user_id, message_content) 
         VALUES (%s, %s) RETURNING message_id
-    """, (user_id, message_content))
+    """, (user, message_content))
     message_id = cursor.fetchone()[0]
     conn.commit()
     cursor.close()
