@@ -8,7 +8,7 @@
 </head>
 <body>
     <div class="welcome">
-        <p class="welcometitle">Welcome Back<br>to<br>Academic Weapons</p>
+        <p class="welcometitle">Welcome Back<br>to<br>RoutineFlex</p>
     </div>
     <div class="loginpage">
         <form class="loginForm" enctype="application/x-www-form-urlencoded">
@@ -19,9 +19,8 @@
             <div id="errormessage"></div>
         </form>
         <p class="question">Don't have an account?</p>
-        <button id='createaccount' type="button">Create an Account</button>
-    </div>
-
+        <button class="SwapPage" id='createaccount' type="button" onclick="RegisterPage()">Create an Account</button> 
+    </div> 
     <script src="{{ url_for('static', filename='js/login.js') }}"></script>
 </body>
 </html>

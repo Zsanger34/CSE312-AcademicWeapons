@@ -4,7 +4,8 @@ import bcrypt
 import secrets
 import hashlib
 
-# create login route
+
+#create login route
 login_route = Blueprint('login_page', __name__)
 
 # Connecto to the SQL Database
@@ -44,12 +45,14 @@ def login():
             database_password = cursor.fetchone()[0]
 
             # get the password and salt and hash the current password
+
             cursor.execute('SELECT salt FROM users WHERE username = %s', (username,))
             salt = cursor.fetchone()[0]
             bytes_salt = salt.encode('utf-8')
             hashed_password = bcrypt.hashpw(password.encode(), bytes_salt)
 
             # compare the two passwords not to make sure they are the same
+
             if database_password.encode('utf-8') != hashed_password:
                 # the passwords do not match return an error message
                 cursor.close()
@@ -57,16 +60,17 @@ def login():
                 errors['message1'] = 'Password is Not Valid'
                 return jsonify(errors), 400
             else:
-                # the passwords do match
 
-                # generate an unique cookie id and hash it loop till we get unique cookie
+                #the passwords do match
+                
+                #generate an unique cookie id and hash it loop till we get unique cookie
                 token = secrets.token_urlsafe(16)
                 hashed_token = hashlib.sha256(token.encode()).hexdigest()
-
-                # update the cookie
+                
+                #update the cookie
                 cursor.execute("UPDATE users SET cookie = %s WHERE username = %s", (hashed_token, username))
                 conn.commit()
-
+                
                 cursor.close()
                 conn.close()
                 # Create the response

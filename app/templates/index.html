@@ -8,9 +8,9 @@
 </head>
 <body>
     <div class="container">
-        <!-- Left Sidebar Navigation -->
         <nav class="sidebar">
             <h1 class="logo">RoutineFlex</h1>
+            <h1>Welcome {{username}}</h1>
             <ul>
                 <li><a href="#">Home</a></li>
                 <li><a href="#">Search</a></li>
@@ -22,8 +22,10 @@
             </ul>
         </nav>
 
+
         <!-- Main Content Area -->
         <main class="content" id="content">
+
             <section class="feed-item">
                 <img src="../static/images/workout1.jpg" alt="Workout Example 1">
                 <p>Push yourself to the limit! 💪 #Strength</p>
@@ -38,12 +40,10 @@
             </section>
         </main>
 
-        <!-- Right Sidebar (Post Button) -->
         <aside class="profile-sidebar">
             <button id="postButton" class="post-btn">Post</button>
         </aside>
 
-        <!-- Modal for Creating a Post -->
         <div id="postModal" class="modal">
             <div class="modal-content">
                 <span class="close-btn">&times;</span>

@@ -39,8 +39,11 @@ def home():
     # hashed_token = hashlib.sha256(session_token.encode()).hexdigest()
     conn = get_db_connection()
     cursor = conn.cursor()
+    hashed_token = hashlib.sha256(session_token.encode()).hexdigest()
     cursor.execute('SELECT username FROM users WHERE cookie = %s', (hashed_token,))
     user = cursor.fetchone()
+    if user is None:
+        return redirect(url_for('register.register'))
     cursor.close()
     conn.close()
     if user:
