@@ -48,8 +48,16 @@ async function likeMessage(messageId) {
 
     if (response.ok) {
         alert('Message liked!');
-    } else {
+    }
+    else {
+        const response_data = await response.json();
+        if (response_data.message == "Already liked this post")
+            {
+            alert("You have already liked this message!")
+            }
+        else{
         alert('Error liking the message.');
+        }
     }
 }
 

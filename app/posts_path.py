@@ -45,12 +45,34 @@ def like_message(message_id):
     """Increment the likes counter for a message"""
     conn = get_db_connection()
     cursor = conn.cursor()
-    cursor.execute("""
-        UPDATE messages SET likes = likes + 1 
-        WHERE message_id = %s
-    """, (message_id,))
-    conn.commit()
-    cursor.close()
-    conn.close()
+    session_token = request.cookies.get('session_token')
+    hashed_token = hashlib.sha256(session_token.encode()).hexdigest()
+    cursor.execute('SELECT id FROM users WHERE cookie = %s', (hashed_token,))
+    user = cursor.fetchone()
+    if user:
+        user_id = user[0]
+        cursor.execute("SELECT id_like_list FROM messages WHERE message_id = %s", (message_id,))
+        user_list = cursor.fetchone()[0]
+        if not user_list:
+            user_list=[]
+        if user_id in user_list:
+            cursor.close()
+            conn.close()
+            return jsonify({'message': 'Already liked this post'}), 400
+        else:
+            print(f"This person {user_id} is not in the list {user_list}", flush=True)
+            user_list.append(user_id)
+            cursor.execute("""
+                UPDATE messages SET likes = likes + 1, id_like_list= %s
+                WHERE message_id = %s
+            """, (user_list, message_id,))
+            conn.commit()
+            cursor.close()
+            conn.close()
 
-    return jsonify({'message': 'Message liked successfully'}), 200
+        return jsonify({'message': 'Message liked successfully'}), 200
+    else:
+        conn.commit()
+        cursor.close()
+        conn.close()
+        return jsonify({'error': 'Unauthorized'}), 401
