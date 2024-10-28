@@ -4,6 +4,7 @@ from flask import Blueprint, request, jsonify
 import psycopg2
 from psycopg2.extras import RealDictCursor
 import hashlib
+import html
 
 # Blueprint setup for modularity
 posts_bp = Blueprint('posts', __name__)
@@ -19,7 +20,7 @@ def create_message():
     """Submit a new message and store it in the messages table"""
     data = request.get_json()
     user_id = data.get('user_id')
-    message_content = data.get('message_content')
+    message_content = html.escape(data.get('message_content'))
     
     conn = get_db_connection()
     cursor = conn.cursor()
