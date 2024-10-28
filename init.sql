@@ -11,7 +11,7 @@ CREATE TABLE messages (
     user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,  
     message_content TEXT NOT NULL,  
     likes INTEGER DEFAULT 0, 
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    id_like_list INTEGER[]
 );
 
