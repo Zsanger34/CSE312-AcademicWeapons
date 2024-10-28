@@ -6,7 +6,7 @@ services:
       context: .   # Context should point to the root of your project
       dockerfile: Dockerfile
     ports:
-      - "5001:5000"
+      - "8080:5000"
     environment:
       - DATABASE_URL=postgresql://postgres:mysecretpassword@db:5432/mydatabase
     depends_on:
@@ -21,6 +21,7 @@ services:
       POSTGRES_PASSWORD: mysecretpassword
     volumes:
       - postgres_data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql 
 
 volumes:
   postgres_data:
