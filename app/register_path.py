@@ -27,18 +27,19 @@ def generateProfilePage(username, profileID):
     followers = []
     following = []
     myPosts = []
+    pictureURL = 'static/uploads/JESSE.jpg'
 
     query = """
-    INSERT INTO profilePages (profile_id, username, bio, followers, following, MyPosts)
-    VALUES (%s, %s, %s, %s, %s, %s);
+    INSERT INTO profilePages (profile_id, username, profilePictureUrl, bio, followers, following, MyPosts)
+    VALUES (%s, %s, %s, %s, %s, %s, %s);
     """
 
-    cursor.execute(query, (profileID, username, bio, followers, following, myPosts))
+    cursor.execute(query, (profileID, username, pictureURL, bio, followers, following, myPosts))
 
-
-
-    conn.close()
+    conn.commit()  
     cursor.close()
+    conn.close()
+
 
 
 

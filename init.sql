@@ -20,7 +20,8 @@ CREATE TABLE messages (
 
 CREATE TABLE profilePages (
     profile_id VARCHAR(255) PRIMARY KEY,
-    username VARCHAR(255) UNIQUE NOT NULL,  
+    username VARCHAR(255) UNIQUE NOT NULL,
+    profilePictureUrl VARCHAR NOT NULL,  
     bio VARCHAR(255) UNIQUE NOT NULL,  
     followers VARCHAR[], 
     following VARCHAR[],
