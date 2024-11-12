@@ -16,6 +16,26 @@ def get_db_connection():
     conn = psycopg2.connect(host=DB_HOST, database=DB_NAME, user=DB_USER, password=DB_PASSWORD)
     return conn
 
+
+def getProfileID(username):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    query = "SELECT profile_id FROM users WHERE username = %s;"
+    cursor.execute(query, (username,))
+    result = cursor.fetchone()
+
+    profile_id = None
+    if result is not None:
+        profile_id = result[0]  
+    else:
+        profileLink = "not-found"
+
+    conn.close()
+    cursor.close()
+    return profile_id
+
+
 # Define the home route
 @main_routes.route('/', methods=['GET', 'POST'])
 def home():
@@ -49,6 +69,10 @@ def home():
     if user:
         # Pass the username to the template
         username = escape(user[0])
-        return render_template('index.html', username=username)
+        profile_id = getProfileID(username)
+        profileLink = "profile/" + profile_id
+
+
+        return render_template('index.html', username=username, profileURL= profileLink)
     else:
         return redirect(url_for('register.register'))

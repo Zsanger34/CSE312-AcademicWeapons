@@ -7,30 +7,52 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/profilePage.css') }}">
 </head>
 <body>
+    <div class="profile-container">
+        <nav class="sidebar">
+            <h1 class="logo">RoutineFlex</h1>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="#">Search</a></li>
+                <li><a href="#">Explore</a></li>
+                <li><a href="#">Messages</a></li>
+                <li><a href="#">Notifications</a></li>
+                <li><a href="#">Create</a></li>
+            </ul>
+            <button id="logout" class="logout-btn">Logout</button>
+        </nav>
 
-    <!-- Main Content Area -->
-    <div class="profile-section">
 
-        <!--Will contain the profile information, picture, bio, username, etc..-->
-        <div class="profile-Summary">
+        <!-- Main Content Area -->
+        <div class="profile-section">
+            <!--Will contain the profile information, picture, bio, username, etc..-->
+            <div class="profile-Summary">
+                <img src="{{ profilePictureUrl }}" alt="{{ username }}'s Profile Picture" class="profile-picture">
+                <button class="followOredit-button" onclick= "FollowOrEdit()">{{ FollowOrEdit }}</button>
+                <div class="profile-details">
+                    <h1 class="userName">{{ username }}</h1>
+                    <p class="user-bio">{{ BIO_GOES_HERE }}</p>
+                    <div class="followersCount">
+                        <p>Followers: {{ Followers }}</p>
+                        <p>Following: {{ Following }}</p>
+                    </div>
+                </div>
+            </div>
 
+
+            <!--This will div will contain all the user activites, posts, comments, etc..-->
+            <div class="user-activity">
+
+            </div>
         </div>
 
 
-        <!--This will div will contain all the user activites, posts, comments, etc..-->
-        <div class="user-activity">
 
+
+        <!-- will be located on the right side of the screen -->
+        <div class="friends">
+            <h1>Friends:</h1>
         </div>
     </div>
-
-
-
-
-
-
-    <!-- will be located on the right side of the screen -->
-    <div class="friends">
-        <h1>Friends:</h1>
-    </div>
+    <script src="{{ url_for('static', filename='js/profilePage.js') }}"></script>
 </body>
 </html>
