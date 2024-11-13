@@ -23,11 +23,11 @@ def get_db_connection():
 def generateProfilePage(username, profileID):
     conn = get_db_connection()
     cursor = conn.cursor()
-    bio = "enter your bio here. Also click on the profile pic to change your photo"
+    bio = "Your Bio will go here, Max(200) character count"
     followers = []
     following = []
     myPosts = []
-    pictureURL = 'static/uploads/JESSE.jpg'
+    pictureURL = '/static/uploads/JESSE.jpg'
 
     query = """
     INSERT INTO profilePages (profile_id, username, profilePictureUrl, bio, followers, following, MyPosts)

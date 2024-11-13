@@ -42,12 +42,16 @@ def getProfilePage(profileID):
 
     try:
         profileInfo = getProfileDetail(profileID)
+
+        
+
         return render_template('profilePage.html',
                                 username=profileInfo['username'], 
                                 BIO_GOES_HERE=profileInfo['bio'],
                                 profilePictureUrl = profileInfo['profilePictureUrl'], 
                                 Followers=len(profileInfo['followers']), 
-                                Following=len(profileInfo['following']))
+                                Following=len(profileInfo['following']),
+                                FollowOrEdit="Edit")
     except Exception:
         return render_template('404.html')
     

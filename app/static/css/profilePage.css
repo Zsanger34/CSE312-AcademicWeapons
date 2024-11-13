@@ -1,0 +1,126 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', Arial, sans-serif;
+    background-color: #121212;
+    color: #e0e0e0;
+}
+
+.profile-container {
+    display: grid;
+    grid-template-columns: 220px 2.5fr 1fr;
+    height: 100vh;
+    overflow: hidden;
+}
+
+
+.sidebar {
+    background-color: #1a1a1a;
+    padding: 1rem 0;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding-left: 1rem;
+}
+
+.sidebar .logo {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.8rem;
+    color: #e0e0e0;
+    margin-bottom: 2rem;
+}
+
+.sidebar ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.sidebar ul li {
+    margin: 1.5rem 0;
+}
+
+.sidebar ul li a {
+    color: #b3b3b3;
+    text-decoration: none;
+    font-size: 1.2rem;
+    padding-left: 1rem;
+    display: block;
+    transition: padding-left 0.3s ease, color 0.3s ease;
+}
+
+.sidebar ul li a:hover {
+    color: #e0e0e0;
+    padding-left: 1.5rem;
+    background-color: #2b2b2b;
+    border-radius: 5px;
+}
+
+
+
+
+/*The actual profile styles*/
+.profile-section {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 2rem;
+    padding-left: 50px;
+    padding-top: 50px;
+}
+
+.profile-picture {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    margin-bottom: 1rem;
+}
+
+
+
+
+
+.followersCount {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    display: flex; 
+    gap: 1rem; 
+    align-items: center; 
+}
+
+
+.followOredit-button {
+    padding: 0.5rem 1rem;
+    background-color: #007bff;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.followOredit-button:hover {
+    background-color: #0056b3;
+}
+
+
+
+
+/*Friends section*/
+.friends {
+    background-color: #1e1e1e;
+    padding: 15px;
+    border-radius: 10px;
+    margin: 15px;
+}
+
+.friends h1 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    color: #e0e0e0;
+}
+
