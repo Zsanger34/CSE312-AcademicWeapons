@@ -25,3 +25,21 @@ def getProfileID(username):
     conn.close()
     cursor.close()
     return result
+
+
+
+def authticateUser(hashed_token):
+    conn = get_db_connection()  
+    cursor = conn.cursor()
+    user = None
+    userFound = None
+
+    query = 'SELECT username FROM users WHERE cookie = %s'
+    cursor.execute(query, (hashed_token,))
+    user = cursor.fetchone()
+    if user:
+        userFound = True
+    else:
+        userFound = False
+
+    return (user, userFound)

@@ -1,3 +1,4 @@
+/* Base styles */
 * {
     margin: 0;
     padding: 0;
@@ -10,14 +11,15 @@ body {
     color: #e0e0e0;
 }
 
+/* Profile container with grid layout */
 .profile-container {
     display: grid;
-    grid-template-columns: 220px 2.5fr 1fr;
+    grid-template-columns: 220px 2.5fr 1fr; 
     height: 100vh;
     overflow: hidden;
 }
 
-
+/* Sidebar styles */
 .sidebar {
     background-color: #1a1a1a;
     padding: 1rem 0;
@@ -60,17 +62,27 @@ body {
     border-radius: 5px;
 }
 
+.logout-btn {
+    padding: 10px 20px;
+    font-size: 1rem;
+    background-color: #ff4b4b;
+    color: #e0e0e0;
+    border: none;
+    width: 75%;
+    border-radius: 25px;
+    cursor: pointer;
+}
 
 
 
-/*The actual profile styles*/
+
+
+/* Profile section styles */
 .profile-section {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    margin-bottom: 2rem;
-    padding-left: 50px;
-    padding-top: 50px;
+    padding: 50px;
+    overflow-y: auto; 
 }
 
 .profile-picture {
@@ -80,10 +92,6 @@ body {
     margin-bottom: 1rem;
 }
 
-
-
-
-
 .followersCount {
     padding-top: 20px;
     padding-bottom: 20px;
@@ -91,7 +99,6 @@ body {
     gap: 1rem; 
     align-items: center; 
 }
-
 
 .followOredit-button {
     padding: 0.5rem 1rem;
@@ -107,15 +114,13 @@ body {
     background-color: #0056b3;
 }
 
-
-
-
-/*Friends section*/
+/* Friends section styles */
 .friends {
     background-color: #1e1e1e;
     padding: 15px;
     border-radius: 10px;
     margin: 15px;
+    overflow-y: auto; 
 }
 
 .friends h1 {
@@ -123,4 +128,3 @@ body {
     margin-bottom: 10px;
     color: #e0e0e0;
 }
-

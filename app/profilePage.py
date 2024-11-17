@@ -60,3 +60,41 @@ def getProfilePage(profileID):
 @get_Profile_Page_api.route('/profileEdit/<path:profileID>', methods=['POST'])
 def editProfile(profileID):
     return None
+
+
+
+
+@get_Profile_Page_api.route('/profile/getPosts', methods=['GET'])
+def getUsersPosts():
+    #get the user
+    session_token = request.cookies.get('session_token')
+    if not session_token:
+        return redirect(url_for('login_page.login'))
+    else: 
+        hashed_token = hashlib.sha256(session_token.encode()).hexdigest()
+        username, userFound = authticateUser(hashed_token)
+
+    if userFound == False:
+        return redirect(url_for('login_page.login'))
+
+
+
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    #get the posts
+    query = """
+    SELECT messages.message_id, 
+           messages.message_content, 
+           messages.likes, 
+           messages.created_at
+    FROM messages
+    JOIN users ON messages.user_id = users.id
+    WHERE users.username = %s
+    """
+    cursor.execute(query, (username,))
+    messages = cursor.fetchall()
+
+
+    cursor.close()
+    conn.close()
+    return 

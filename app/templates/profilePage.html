@@ -25,8 +25,9 @@
         <!-- Main Content Area -->
         <div class="profile-section">
             <!--Will contain the profile information, picture, bio, username, etc..-->
+            <img src="{{ profilePictureUrl }}" alt="{{ username }}'s Profile Picture" class="profile-picture">
+
             <div class="profile-Summary">
-                <img src="{{ profilePictureUrl }}" alt="{{ username }}'s Profile Picture" class="profile-picture">
                 <button class="followOredit-button" onclick= "FollowOrEdit()">{{ FollowOrEdit }}</button>
                 <div class="profile-details">
                     <h1 class="userName">{{ username }}</h1>
@@ -56,6 +57,7 @@
             <h1>Friends:</h1>
         </div>
     </div>
+    
     <script src="{{ url_for('static', filename='js/profilePage.js') }}"></script>
 </body>
 </html>

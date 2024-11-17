@@ -21,6 +21,9 @@ def get_db_connection():
 
 
 def generateProfilePage(username, profileID):
+    """
+    This is being used to generate a simple profile page template for new users
+    """
     conn = get_db_connection()
     cursor = conn.cursor()
     bio = "Your Bio will go here, Max(200) character count"

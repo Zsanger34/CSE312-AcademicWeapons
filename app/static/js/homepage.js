@@ -82,17 +82,19 @@ async function loadPosts()
 
 
     const messageContent  = document.createElement('p');
-    messageContent.textContent = post.message_content;
-    const username = document.createElement('p');
+        messageContent.textContent = post.message_content;
+    const username = document.createElement('a');
         username.textContent = `Posted by: ${post.username}`;
+        username.href = `/profile/${post.profile_id}`;
+        username.classList.add('username-link');
     const likes = document.createElement('p');
         likes.textContent = `Likes: ${post.likes}`;
     const timestamp = document.createElement('time');
         timestamp.textContent = `Posted on: ${post.created_at}`;
     const likebutton =  document.createElement('like-button');
-    likebutton.classList.add('like-button');
-    likebutton.textContent ="Like!"
-    likebutton.addEventListener('click', async () => {
+        likebutton.classList.add('like-button');
+        likebutton.textContent ="Like!"
+        likebutton.addEventListener('click', async () => {
         const response = await likeMessage(post.message_id);
         if (response.ok) {
                 likes.textContent = `Likes: ${post.likes + 1}`;
