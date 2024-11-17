@@ -28,7 +28,7 @@
             <img src="{{ profilePictureUrl }}" alt="{{ username }}'s Profile Picture" class="profile-picture">
 
             <div class="profile-Summary">
-                <button class="followOredit-button" onclick= "FollowOrEdit()">{{ FollowOrEdit }}</button>
+                <button class="followOredit-button" onclick= "{{ followOrEditFunction }}">{{ FollowOrEdit }}</button>
                 <div class="profile-details">
                     <h1 class="userName">{{ username }}</h1>
                     <p class="user-bio">{{ BIO_GOES_HERE }}</p>
@@ -42,9 +42,21 @@
 
             <!--This will div will contain all the user activites, posts, comments, etc..-->
             <div class="user-activity">
-                <div class="posts">
-                    <p>POST WILL GO HERE</p>
+                {% for post in posts %}
+                <div class="post-card">
+                    <div class="post-header">
+                        <img src="{{ post.profilePictureUrl }}" class="post-profile-image" alt="Profile Picture">
+                        <div class="post-author-details">
+                            <p class="post-author"><a href="{{ post.profileURL }}" class="author-link">{{ post.username }}</a></p>
+                        </div>
+                    </div>
+                    <div class="post-info">
+                        <p class="post-text">{{ post.POSTCONTENT }}</p>
+                        <p class="likes-count">Likes: {{ post.POSTLIKECOUNTER }}</p>
+                        <p class="post-date">Posted on: {{ post.POSTTIME }}</p>
+                    </div>
                 </div>
+                {% endfor %}
 
             </div>
         </div>
@@ -57,7 +69,28 @@
             <h1>Friends:</h1>
         </div>
     </div>
+
+    <!-- Modal for Editing Profile -->
+    <div id="editProfileModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2>Edit Profile</h2>
+            
+            <form id="editProfileForm">
+                <label for="profileImage">Change Profile Picture:</label>
+                <input type="file" id="profileImage" name="profileImage" accept="image/*"><br><br>
+                
+                <label for="bio">Edit Bio:</label>
+                <textarea id="bio" name="bio" rows="4" placeholder="Enter your new bio..."></textarea><br><br>
+                <p class="bioError">Too many characters, Limit is 100 characters</p>
+                <p class="errorMessage"></p>
+                
+                <button type="submit" class="submit-profile-btn">Save Changes</button>
+            </form>
+        </div>
+    </div>
     
+
     <script src="{{ url_for('static', filename='js/profilePage.js') }}"></script>
 </body>
 </html>

@@ -75,13 +75,10 @@ body {
 
 
 
-
-
 /* Profile section styles */
 .profile-section {
     display: flex;
     flex-direction: column;
-    padding: 50px;
     overflow-y: auto; 
 }
 
@@ -90,6 +87,15 @@ body {
     height: 150px;
     border-radius: 50%;
     margin-bottom: 1rem;
+    margin-left: 50px;
+    margin-right: 50px;
+    margin-top: 50px;
+}
+
+.profile-Summary{
+    margin-top: 10px;
+    margin-left: 50px;
+    margin-right: 50px;
 }
 
 .followersCount {
@@ -127,4 +133,95 @@ body {
     font-size: 1.5rem;
     margin-bottom: 10px;
     color: #e0e0e0;
+}
+
+
+
+
+
+
+/*users posts styling*/
+.user-activity{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 20px;
+}
+
+.post-card {
+    background-color: #1e1e1e; 
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    color: #f5f5f5; 
+}
+
+.post-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 10px;
+}
+
+.post-profile-image {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%; 
+    object-fit: cover; 
+}
+
+.post-author-details {
+    display: flex;
+    flex-direction: column;
+}
+
+.post-text {
+    font-size: 18px;
+    margin-bottom: 5px;
+}
+
+.post-author {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.author-link {
+    color: white;
+    text-decoration: none;
+}
+
+.author-link:hover {
+    text-decoration: underline;
+}
+
+.post-info {
+    font-size: 14px;
+    color: #cccccc;
+}
+
+.likes-count {
+    margin-bottom: 5px;
+}
+
+
+
+
+
+
+
+
+
+
+.modal {
+    display: none; 
+    position: fixed;
+    z-index: 1000; 
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
 }

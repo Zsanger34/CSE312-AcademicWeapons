@@ -39,7 +39,9 @@ def authticateUser(hashed_token):
     user = cursor.fetchone()
     if user:
         userFound = True
+        user = user[0]
     else:
         userFound = False
+        user = None
 
     return (user, userFound)

@@ -2,6 +2,7 @@
 from flask import Blueprint, request, jsonify, render_template, redirect, url_for, escape, make_response
 import psycopg2
 import hashlib
+from app.helper import *
 
 # Blueprint allows you to organize routes
 main_routes = Blueprint('main', __name__)
@@ -76,3 +77,4 @@ def home():
         return render_template('index.html', username=username, profileURL= profileLink)
     else:
         return redirect(url_for('register.register'))
+    
