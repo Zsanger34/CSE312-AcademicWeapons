@@ -135,7 +135,9 @@ def editProfile():
     cursor = conn.cursor()
     if newBio == '': #only the profile picture is being changed
         print("updating picture", flush=True)
-
+        updated = uploadNewProfilePicture(conn, cursor)
+        if updated == False:
+            return jsonify({})
         cursor.close()
         conn.close()
         return jsonify({"pictureChanged": True, "newPictureURL": ""}), 200
@@ -157,6 +159,21 @@ def editProfile():
         return jsonify({"bioChanged": True, "newBio": newBio}), 200
     else:
         print("changing both", flush=True)
+        updated = uploadNewProfilePicture(conn, cursor)
+        if updated == False:
+            return jsonify({})
+
+        #check to see if the new bio is over 100 characters
+        if len(newBio) > 100:
+            cursor.close()
+            conn.close()
+            return jsonify({}), 400
+        
+        #print("updating bio", flush=True)
+        #print(newBio, flush=True)
+        query = "UPDATE profilePages SET bio = %s WHERE username = %s"
+        cursor.execute(query, (newBio, username))
+        conn.commit()
 
         cursor.close()
         conn.close()
@@ -200,6 +217,13 @@ def getUsersPosts(username, profilePictureUrl, profileID):
         }
         posts.append(newPost)
 
+    postsSwapped = posts[::-1]
     cursor.close()
     conn.close()
-    return posts
+    return postsSwapped
+
+
+def uploadNewProfilePicture(conn, cursor):
+
+
+    return True
