@@ -11,7 +11,7 @@ body {
     color: #e0e0e0;
 }
 
-/* Profile container with grid layout */
+/* Profile container */
 .profile-container {
     display: grid;
     grid-template-columns: 220px 2.5fr 1fr; 
@@ -173,7 +173,7 @@ body {
     object-fit: cover; 
 }
 
-.post-author-details {
+.post-user-details {
     display: flex;
     flex-direction: column;
 }
@@ -183,17 +183,17 @@ body {
     margin-bottom: 5px;
 }
 
-.post-author {
+.post-user {
     font-size: 14px;
     font-weight: bold;
 }
 
-.author-link {
+.user-link {
     color: white;
     text-decoration: none;
 }
 
-.author-link:hover {
+.user-link:hover {
     text-decoration: underline;
 }
 
@@ -214,14 +214,69 @@ body {
 
 
 
-
+/*Edit prompt styling*/
 .modal {
-    display: none; 
+    display: none;
     position: fixed;
-    z-index: 1000; 
+    z-index: 1000;
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.7);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: #1c1c1c;
+    padding: 2rem;
+    border-radius: 15px;
+    width: 400px;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.7);
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    color: #e0e0e0;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.close-btn:hover {
+    color: #ff4b4b;
+}
+
+
+.editModalErrorMessage {
+    display: none;
+    color: red;
+}
+
+.bioError{
+    display: none;
+    color: red;
+}
+
+/*Error message style*/
+
+.error-message{
+    display: none;
+    background-color: red;
+}
+
+.good-message{
+    display: none;
+    color: white;
+    background-color: green;
+}
+
+
+.fade-out-message {
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
 }

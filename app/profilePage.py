@@ -3,12 +3,9 @@ import psycopg2
 import bcrypt
 from app.helper import *
 
-
-
-
-
-
 get_Profile_Page_api = Blueprint('get_Profile_Page_api', __name__)
+
+
 
 def getProfileDetail(profileID) -> dict:
     profileInfo = {}
@@ -50,7 +47,6 @@ def getProfilePage(profileID):
         editOrFollow = "Follow"
         function = "followUser()"
 
-        print("testing", flush=True)
         session_token = request.cookies.get('session_token')
         if not session_token:
             print("no token")
@@ -65,9 +61,10 @@ def getProfilePage(profileID):
             print(profileInfo['username'], flush=True)
             print(username, flush=True)
             if profileInfo['username'] == username:
-                
                 function = "editPage()"
                 editOrFollow = "Edit"
+        
+
         
         UserPosts = getUsersPosts(username, profileInfo['profilePictureUrl'], profileID)
         return render_template('profilePage.html',
@@ -106,14 +103,73 @@ def verifyUser():
 
 
 
-@get_Profile_Page_api.route('/profileEdit/<path:profileID>', methods=['POST'])
-def editProfile(profileID):
-    return None
+@get_Profile_Page_api.route('/profile/profileEdit', methods=['POST'])
+def editProfile():
+    print("changing profile", flush=True)
+    session_token = request.cookies.get('session_token')
+    if not session_token:
+        print("no token")
+        return jsonify({})
+    else: 
+        hashed_token = hashlib.sha256(session_token.encode()).hexdigest()
+        username, userFound = authticateUser(hashed_token)
+    
+    if userFound == False:
+        return jsonify({})
+    
+
+    #now check that this is the correct user changing the profilePage
+    
+    print(request.form, flush=True)
+    newBio = request.form.get('bio', '')
+    newPicture = request.form.get('profileImage', '')
+
+    #check if no data was sent
+    if newBio == '' and newPicture == '':
+        print("no data was sent", flush=True)
+        return jsonify({})
+    
+
+
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    if newBio == '': #only the profile picture is being changed
+        print("updating picture", flush=True)
+
+        cursor.close()
+        conn.close()
+        return jsonify({"pictureChanged": True, "newPictureURL": ""}), 200
+    elif newPicture == '': #only the bio is being changed
+        #print("checking bio length", flush=True)
+        #check to see if the new bio is over 100 characters
+        if len(newBio) > 100:
+            cursor.close()
+            conn.close()
+            return jsonify({}), 400
+        
+        #print("updating bio", flush=True)
+        #print(newBio, flush=True)
+        query = "UPDATE profilePages SET bio = %s WHERE username = %s"
+        cursor.execute(query, (newBio, username))
+        conn.commit()
+        cursor.close()
+        conn.close()
+        return jsonify({"bioChanged": True, "newBio": newBio}), 200
+    else:
+        print("changing both", flush=True)
+
+        cursor.close()
+        conn.close()
+        return jsonify({"bioAndPicture": True, "newBio": newBio}), 200
+    
+
+
+    
 
 
 
 
-#@get_Profile_Page_api.route('/profile/<profile_id>/getPosts', methods=['GET'])
+
 def getUsersPosts(username, profilePictureUrl, profileID):
     conn = get_db_connection()
     cursor = conn.cursor()
