@@ -30,7 +30,7 @@ def generateProfilePage(username, profileID):
     followers = []
     following = []
     myPosts = []
-    pictureURL = '/static/uploads/JESSE.jpg'
+    pictureURL = '/getUpload/JESSE.jpg'
 
     query = """
     INSERT INTO profilePages (profile_id, username, profilePictureUrl, bio, followers, following, MyPosts)

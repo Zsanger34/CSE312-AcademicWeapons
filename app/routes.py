@@ -1,5 +1,6 @@
 
-from flask import Blueprint, request, jsonify, render_template, redirect, url_for, escape, make_response
+from flask import Blueprint, request, jsonify, render_template, redirect, url_for, escape, make_response, current_app, send_from_directory
+import os
 import psycopg2
 import hashlib
 from app.helper import *
@@ -77,4 +78,21 @@ def home():
         return render_template('index.html', username=username, profileURL= profileLink)
     else:
         return redirect(url_for('register.register'))
-    
+
+
+
+
+
+
+#this route will be used to request all the images uploaded to the app
+#all upload files will be obtain from this route which will auto set the MIME Type for us
+#But it checks the file extension so make sure the file extension is correct
+import mimetypes
+@main_routes.route('/getUpload/<upload>', methods=["GET"])
+def getUpload(upload):
+    file_path = os.path.join(current_app.config['UPLOAD_FOLDER'], upload)
+    try:
+        mimeType, discard = mimetypes.guess_type(file_path)
+        return send_from_directory(current_app.config['UPLOAD_FOLDER'], upload, mimetype=mimeType)
+    except FileNotFoundError:
+        return "File not found", 404

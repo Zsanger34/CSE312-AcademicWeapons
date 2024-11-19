@@ -1,6 +1,8 @@
 from flask import Blueprint, request, jsonify, render_template, redirect, url_for, escape, make_response
 import psycopg2
 import hashlib
+import os
+import magic
 
 # Database connection settings
 DB_HOST = 'db'  
@@ -45,3 +47,11 @@ def authticateUser(hashed_token):
         user = None
 
     return (user, userFound)
+
+
+
+def getFileType(file):
+
+
+
+    return ""
