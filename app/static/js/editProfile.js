@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', function() {
     })
 });
 
+pictureChanged = false;
 
 function editPage() {
     const modal = document.getElementById('editProfileModal');
@@ -31,6 +32,11 @@ function closeEditPage(){
     bio.value = '';
     profileImage.value = '';
     goodMessage.textContent = '';
+
+    if (pictureChanged == true){
+        pictureChanged = false;
+        location.reload(true);
+    }
 }
 
 
@@ -61,16 +67,12 @@ async function submitChanges(event){
             goodMessage.textContent = 'Succesfully changed Bio';
         }else if ("pictureChanged" in data){
             // Handle picture change
-            var newProfilePic = document.getElementById('profile-picture');
-            newProfilePic.src = data["newPictureURL"];
             goodMessage.textContent = 'Succesfully changed Profile Picture';
+            pictureChanged = true;
         }else{
             // Handle picture change and bio change
-            document.getElementById('user-bio').textContent = data["newBio"];
-            var newProfilePic = document.getElementById('profile-picture');
-            newProfilePic.src = data["newPictureURL"];
             goodMessage.textContent = 'Succesfully changed Bio and profile Picture';
-
+            pictureChanged = true;
         }
 
     } else if (response.status === 400) {

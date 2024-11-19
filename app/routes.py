@@ -1,9 +1,10 @@
 
-from flask import Blueprint, request, jsonify, render_template, redirect, url_for, escape, make_response, current_app, send_from_directory
+from flask import Blueprint, request, jsonify, render_template, redirect, url_for, escape, make_response, current_app, send_from_directory, send_file
 import os
 import psycopg2
 import hashlib
 from app.helper import *
+import magic
 
 # Blueprint allows you to organize routes
 main_routes = Blueprint('main', __name__)
@@ -87,12 +88,19 @@ def home():
 #this route will be used to request all the images uploaded to the app
 #all upload files will be obtain from this route which will auto set the MIME Type for us
 #But it checks the file extension so make sure the file extension is correct
-import mimetypes
 @main_routes.route('/getUpload/<upload>', methods=["GET"])
 def getUpload(upload):
-    file_path = os.path.join('static/uploads', upload)
+    file_path = os.path.join(current_app.root_path, 'static', 'uploads', upload)
     try:
-        mimeType, discard = mimetypes.guess_type(file_path)
-        return send_from_directory('static/uploads', upload, mimetype=mimeType)
-    except FileNotFoundError:
+        with open(file_path, 'rb') as image:
+            imageData = image.read()
+            mimeType = getFileType(imageData)
+            return send_file(file_path, mimetype= mimeType)
+    except Exception:
         return "File not found", 404
+
+
+def getFileType(fileData):
+    mime = magic.Magic(mime=True)
+    MimeType = mime.from_buffer(fileData)
+    return MimeType

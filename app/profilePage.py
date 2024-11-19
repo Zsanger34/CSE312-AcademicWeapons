@@ -66,14 +66,16 @@ def editProfile():
 
     conn = get_db_connection()
     cursor = conn.cursor()
-    #now check that this is the correct user changing the profilePage
     newBio = request.form.get('bio', '')
     newPicture = request.files.get('profileImage')
+    print("the picture:", newPicture, flush=True)
 
     #check if no data was sent
     if newBio == '' and newPicture == None:
         return jsonify({"errorMessage": "no Data was Sent"})
     
+
+
 
     if newBio == '': #only the profile picture is being changed
         (updated, message) = uploadNewProfilePicture(conn, cursor, newPicture, username)
@@ -98,7 +100,7 @@ def editProfile():
         conn.close()
         return jsonify({"bioChanged": True, "newBio": newBio}), 200
     
-    else:
+    else: #both picture and bio is being changed
         updated, results = uploadNewProfilePicture(conn, cursor, newPicture, username)
         if updated == False:
             return jsonify({"errorMessage": results})
@@ -194,7 +196,6 @@ def getUsersPosts(username, profilePictureUrl, profileID):
 
 def uploadNewProfilePicture(conn, cursor, newPicture, username):
     FILESIGNATURES = ['image/jpeg', 'image/png', 'image/jpg']
-    uploadFolder = 'static/uploads'
 
     #get the MIME type and check to see if its the correct file allowed
     MimeType = getFileType(newPicture)
@@ -204,15 +205,17 @@ def uploadNewProfilePicture(conn, cursor, newPicture, username):
     
     fileExtension = MimeType.split('/', 1)[1]
     filename = f"{uuid.uuid4().hex}.{fileExtension}"
-    newPath = os.path.join(uploadFolder, filename)
+    newPath = os.path.join(current_app.root_path, 'static', 'uploads', filename)
 
+
+
+
+    #save the image having an issue???
     directory = os.path.dirname(newPath)
     if not os.path.exists(directory):
         os.makedirs(directory)  # Create the directory if it doesn't exist
-
-    with open(newPath, 'wb') as file:
-            file.write(newPicture.read())
-
+    newPicture.seek(0)
+    newPicture.save(newPath)
 
 
 
@@ -222,7 +225,7 @@ def uploadNewProfilePicture(conn, cursor, newPicture, username):
     cursor.execute(query, (queryPath, username))
     conn.commit()
 
-    return True, newPath
+    return True, queryPath
 
 
 def getFileType(fileData):
