@@ -3,6 +3,7 @@ import psycopg2
 import bcrypt
 import secrets
 import hashlib
+import uuid
 
 # creating a route named register
 register_route = Blueprint('register', __name__)
@@ -17,6 +18,33 @@ DB_PASSWORD = 'mysecretpassword'
 def get_db_connection():
     conn = psycopg2.connect(host=DB_HOST, database=DB_NAME, user=DB_USER, password=DB_PASSWORD)
     return conn
+
+
+def generateProfilePage(username, profileID):
+    """
+    This is being used to generate a simple profile page template for new users
+    """
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    bio = "Your Bio will go here, Max(100) character count"
+    followers = []
+    following = []
+    myPosts = []
+    pictureURL = '/getUpload/NoProfileImage.jpg'
+
+    query = """
+    INSERT INTO profilePages (profile_id, username, profilePictureUrl, bio, followers, following, MyPosts)
+    VALUES (%s, %s, %s, %s, %s, %s, %s);
+    """
+
+    cursor.execute(query, (profileID, username, pictureURL, bio, followers, following, myPosts))
+
+    conn.commit()  
+    cursor.close()
+    conn.close()
+
+
+
 
 
 @register_route.route('/register', methods=['GET', 'POST'])
@@ -92,9 +120,18 @@ def register():
                 token = secrets.token_urlsafe(16)
                 hashed_token = hashlib.sha256(token.encode()).hexdigest()
 
+            profile_id = uuid.uuid4()
+            profile_id = str(profile_id)
             # put the username / password / token into the database
-            cursor.execute('INSERT INTO users (username, password, salt, cookie)  VALUES (%s, %s, %s, %s)',
-                           (username, db_password, db_salt, hashed_token))
+            cursor.execute('INSERT INTO users (username, profile_id, password, salt, cookie)  VALUES (%s, %s, %s, %s, %s)',
+                           (username, profile_id, db_password, db_salt, hashed_token))
+            
+            #create the profile page
+            generateProfilePage(username, profile_id)
+
+
+
+
             # the upload was successful
             conn.commit()
             cursor.close()
@@ -112,3 +149,4 @@ def register():
 
     # send the html code to the server
     return render_template('register.html')
+

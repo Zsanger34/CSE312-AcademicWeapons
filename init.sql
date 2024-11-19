@@ -1,6 +1,7 @@
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
     username VARCHAR(255) UNIQUE NOT NULL,
+    profile_id VARCHAR(255) UNIQUE NOT NULL,
     password VARCHAR(255) NOT NULL,
     salt VARCHAR(255) NOT NULL,
     cookie VARCHAR(255) NOT NULL
@@ -13,5 +14,17 @@ CREATE TABLE messages (
     likes INTEGER DEFAULT 0, 
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     id_like_list INTEGER[]
+);
+
+
+
+CREATE TABLE profilePages (
+    profile_id VARCHAR(255) PRIMARY KEY,
+    username VARCHAR(255) UNIQUE NOT NULL,
+    profilePictureUrl VARCHAR NOT NULL,  
+    bio VARCHAR(255) UNIQUE NOT NULL,  
+    followers VARCHAR[], 
+    following VARCHAR[],
+    MyPosts INTEGER[]
 );
 

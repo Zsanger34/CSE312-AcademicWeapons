@@ -1,0 +1,284 @@
+/* Base styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', Arial, sans-serif;
+    background-color: #121212;
+    color: #e0e0e0;
+}
+
+/* Profile container */
+.profile-container {
+    display: grid;
+    grid-template-columns: 220px 2.5fr 1fr; 
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* Sidebar styles */
+.sidebar {
+    background-color: #1a1a1a;
+    padding: 1rem 0;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding-left: 1rem;
+}
+
+.sidebar .logo {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.8rem;
+    color: #e0e0e0;
+    margin-bottom: 2rem;
+}
+
+.sidebar ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.sidebar ul li {
+    margin: 1.5rem 0;
+}
+
+.sidebar ul li a {
+    color: #b3b3b3;
+    text-decoration: none;
+    font-size: 1.2rem;
+    padding-left: 1rem;
+    display: block;
+    transition: padding-left 0.3s ease, color 0.3s ease;
+}
+
+.sidebar ul li a:hover {
+    color: #e0e0e0;
+    padding-left: 1.5rem;
+    background-color: #2b2b2b;
+    border-radius: 5px;
+}
+
+.logout-btn {
+    padding: 10px 20px;
+    font-size: 1rem;
+    background-color: #ff4b4b;
+    color: #e0e0e0;
+    border: none;
+    width: 75%;
+    border-radius: 25px;
+    cursor: pointer;
+}
+
+
+
+/* Profile section styles */
+.profile-section {
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto; 
+}
+
+.profile-picture {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    margin-bottom: 1rem;
+    margin-left: 50px;
+    margin-right: 50px;
+    margin-top: 50px;
+}
+
+.profile-Summary{
+    margin-top: 10px;
+    margin-left: 50px;
+    margin-right: 50px;
+}
+
+.followersCount {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    display: flex; 
+    gap: 1rem; 
+    align-items: center; 
+}
+
+.followOredit-button {
+    padding: 0.5rem 1rem;
+    background-color: #007bff;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.followOredit-button:hover {
+    background-color: #0056b3;
+}
+
+/* Friends section styles */
+.friends {
+    background-color: #1e1e1e;
+    padding: 15px;
+    border-radius: 10px;
+    margin: 15px;
+    overflow-y: auto; 
+}
+
+.friends h1 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    color: #e0e0e0;
+}
+
+
+
+
+
+
+/*users posts styling*/
+.user-activity{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 20px;
+}
+
+.post-card {
+    background-color: #1e1e1e; 
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    color: #f5f5f5; 
+}
+
+.post-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 10px;
+}
+
+.post-profile-image {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%; 
+    object-fit: cover; 
+}
+
+.post-user-details {
+    display: flex;
+    flex-direction: column;
+}
+
+.post-text {
+    font-size: 18px;
+    margin-bottom: 5px;
+}
+
+.post-user {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.user-link {
+    color: white;
+    text-decoration: none;
+}
+
+.user-link:hover {
+    text-decoration: underline;
+}
+
+.post-info {
+    font-size: 14px;
+    color: #cccccc;
+}
+
+.likes-count {
+    margin-bottom: 5px;
+}
+
+
+
+
+
+
+
+
+
+/*Edit prompt styling*/
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: #1c1c1c;
+    padding: 2rem;
+    border-radius: 15px;
+    width: 400px;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.7);
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    color: #e0e0e0;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.close-btn:hover {
+    color: #ff4b4b;
+}
+
+.editModelGoodMessage{
+    color: green;
+}
+
+.editModalErrorMessage {
+    color: red;
+}
+
+.bioError{
+    display: none;
+    color: red;
+}
+
+/*Error message style*/
+
+.error-message{
+    display: none;
+    background-color: red;
+}
+
+.good-message{
+    display: none;
+    color: white;
+    background-color: green;
+}
+
+
+.fade-out-message {
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+}

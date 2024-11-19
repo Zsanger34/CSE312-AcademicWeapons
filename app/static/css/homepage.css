@@ -54,6 +54,9 @@ body {
 
 .sidebar ul li a:hover {
     color: #e0e0e0;
+    padding-left: 1.5rem;
+    background-color: #2b2b2b;
+    border-radius: 5px;
 }
 
 .content {
