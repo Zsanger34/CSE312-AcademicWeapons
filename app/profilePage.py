@@ -1,13 +1,10 @@
 from flask import Blueprint, request, jsonify, render_template, make_response, current_app
 from app.helper import *
 import os
-from werkzeug.utils import secure_filename
 import uuid
 
-UPLOAD_FOLDER = os.path.join('static', 'uploads')
-if not os.path.exists(UPLOAD_FOLDER):
-    os.makedirs(UPLOAD_FOLDER)
 
+UPLOAD_FOLDER = os.path.join('static', 'uploads')
 get_Profile_Page_api = Blueprint('get_Profile_Page_api', __name__)
 
 
@@ -15,7 +12,6 @@ get_Profile_Page_api = Blueprint('get_Profile_Page_api', __name__)
 def getProfilePage(profileID):
     try:
         profileInfo = getProfileDetail(profileID)
-
         editOrFollow = "Follow"
         function = "followUser()"
 
@@ -198,7 +194,7 @@ def getUsersPosts(username, profilePictureUrl, profileID):
 
 def uploadNewProfilePicture(conn, cursor, newPicture, username):
     FILESIGNATURES = ['image/jpeg', 'image/png', 'image/jpg']
-    uploadFolder = current_app.config['UPLOAD_FOLDER']
+    uploadFolder = 'static/uploads'
 
     #get the MIME type and check to see if its the correct file allowed
     MimeType = getFileType(newPicture)
@@ -207,13 +203,30 @@ def uploadNewProfilePicture(conn, cursor, newPicture, username):
         return False, errorMessage 
     
     fileExtension = MimeType.split('/', 1)[1]
-    #check to see if the file does not exist
     filename = f"{uuid.uuid4().hex}.{fileExtension}"
-    newPath = f'{uploadFolder}{filename}'
+    newPath = os.path.join(uploadFolder, filename)
 
+    directory = os.path.dirname(newPath)
+    if not os.path.exists(directory):
+        os.makedirs(directory)  # Create the directory if it doesn't exist
+
+    with open(newPath, 'wb') as file:
+            file.write(newPicture.read())
+
+
+
+
+    queryPath = f'/getUpload/{filename}'
     #save the new path to for the profile
     query = "UPDATE profilePages SET profilePictureUrl = %s WHERE username = %s"
-    cursor.execute(query, (newPath, username))
+    cursor.execute(query, (queryPath, username))
     conn.commit()
 
-    return True, None
+    return True, newPath
+
+
+def getFileType(fileData):
+    fileBytes = fileData.read()
+    mime = magic.Magic(mime=True)
+    MimeType = mime.from_buffer(fileBytes)
+    return MimeType

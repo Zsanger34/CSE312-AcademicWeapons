@@ -47,11 +47,3 @@ def authticateUser(hashed_token):
         user = None
 
     return (user, userFound)
-
-
-
-def getFileType(file):
-
-
-
-    return ""

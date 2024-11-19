@@ -90,9 +90,9 @@ def home():
 import mimetypes
 @main_routes.route('/getUpload/<upload>', methods=["GET"])
 def getUpload(upload):
-    file_path = os.path.join(current_app.config['UPLOAD_FOLDER'], upload)
+    file_path = os.path.join('static/uploads', upload)
     try:
         mimeType, discard = mimetypes.guess_type(file_path)
-        return send_from_directory(current_app.config['UPLOAD_FOLDER'], upload, mimetype=mimeType)
+        return send_from_directory('static/uploads', upload, mimetype=mimeType)
     except FileNotFoundError:
         return "File not found", 404
