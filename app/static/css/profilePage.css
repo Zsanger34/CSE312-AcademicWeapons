@@ -251,9 +251,11 @@ body {
     color: #ff4b4b;
 }
 
+.editModelGoodMessage{
+    color: green;
+}
 
 .editModalErrorMessage {
-    display: none;
     color: red;
 }
 

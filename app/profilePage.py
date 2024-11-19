@@ -17,7 +17,6 @@ def getProfilePage(profileID):
 
         session_token = request.cookies.get('session_token')
         if not session_token:
-            print("no token")
             return redirect(url_for('login_page.login'))
         else: 
             hashed_token = hashlib.sha256(session_token.encode()).hexdigest()
@@ -64,11 +63,8 @@ def editProfile():
 
 
 
-    conn = get_db_connection()
-    cursor = conn.cursor()
     newBio = request.form.get('bio', '')
     newPicture = request.files.get('profileImage')
-    print("the picture:", newPicture, flush=True)
 
     #check if no data was sent
     if newBio == '' and newPicture == None:
@@ -76,7 +72,8 @@ def editProfile():
     
 
 
-
+    conn = get_db_connection()
+    cursor = conn.cursor()
     if newBio == '': #only the profile picture is being changed
         (updated, message) = uploadNewProfilePicture(conn, cursor, newPicture, username)
         if updated == False:

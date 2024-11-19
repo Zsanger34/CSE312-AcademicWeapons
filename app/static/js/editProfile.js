@@ -45,7 +45,7 @@ async function submitChanges(event){
     const profileImage = document.getElementById('profileImage').files[0];
     const bio = document.getElementById('bio').value;
     const goodMessage = document.getElementById('editModelGoodMessage');
-    const errorMessage = document.getElementById('.errorMessage');
+    const errorMessage = document.getElementById('editModalErrorMessage');
 
     const formData = new FormData();
     formData.append('bio', bio);

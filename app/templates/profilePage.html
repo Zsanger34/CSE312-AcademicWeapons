@@ -78,6 +78,7 @@
             <span class="close-btn" onclick="closeEditPage()">&times;</span>
             <h2>Edit Profile</h2>
             <p class="editModelGoodMessage" id="editModelGoodMessage"></p>
+            <p class="editModalErrorMessage" id="editModalErrorMessage"></p>
             <form id="editProfileForm">
                 <label for="profileImage">Change Profile Picture:</label>
                 <input type="file" id="profileImage" name="profileImage" accept="image/*"><br><br>
@@ -85,7 +86,6 @@
                 <p>to not change your bio, leave it blank</p>
                 <label for="bio">Edit Bio:</label>
                 <textarea id="bio" name="bio" rows="4" placeholder="Enter your new bio..."></textarea><br><br>
-                <p class="editModalErrorMessage" id="editModalErrorMessage"></p>
                 
                 <button type="button" class="submit-profile-btn" onclick="submitChanges(event)">Save Changes</button>
             </form>

@@ -87,15 +87,16 @@ def home():
 
 #this route will be used to request all the images uploaded to the app
 #all upload files will be obtain from this route which will auto set the MIME Type for us
-#But it checks the file extension so make sure the file extension is correct
+#but I still set obtain the type manually and set it manually just in case
 @main_routes.route('/getUpload/<upload>', methods=["GET"])
 def getUpload(upload):
+    upload = os.path.basename(upload)
     file_path = os.path.join(current_app.root_path, 'static', 'uploads', upload)
     try:
         with open(file_path, 'rb') as image:
             imageData = image.read()
             mimeType = getFileType(imageData)
-            return send_file(file_path, mimetype= mimeType)
+            return send_file(file_path, mimetype=mimeType)
     except Exception:
         return "File not found", 404
 
