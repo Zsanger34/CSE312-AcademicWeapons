@@ -12,6 +12,11 @@ get_Profile_Page_api = Blueprint('get_Profile_Page_api', __name__)
 def getProfilePage(profileID):
     try:
         profileInfo = getProfileDetail(profileID)
+        if profileInfo == None:
+            #return 404 if the profile could not be found
+            return render_template('404.html')
+
+
         editOrFollow = "Follow"
         function = "followUser()"
 
@@ -58,7 +63,7 @@ def editProfile():
         username, userFound = authticateUser(hashed_token)
     
     if userFound == False:
-        return jsonify({"errorMessage": "no user was found"})
+        return jsonify({"errorMessage": "no user was found"}), 400
     
 
 
@@ -68,7 +73,7 @@ def editProfile():
 
     #check if no data was sent
     if newBio == '' and newPicture == None:
-        return jsonify({"errorMessage": "no Data was Sent"})
+        return jsonify({"errorMessage": "no Data was Sent"}), 400
     
 
 
@@ -98,9 +103,9 @@ def editProfile():
         return jsonify({"bioChanged": True, "newBio": newBio}), 200
     
     else: #both picture and bio is being changed
-        updated, results = uploadNewProfilePicture(conn, cursor, newPicture, username)
+        (updated, results) = uploadNewProfilePicture(conn, cursor, newPicture, username)
         if updated == False:
-            return jsonify({"errorMessage": results})
+            return jsonify({"errorMessage": results}), 400
 
         #check to see if the new bio is over 100 characters
         if len(newBio) > 100:
@@ -116,6 +121,95 @@ def editProfile():
         conn.close()
         return jsonify({"bioAndPicture": True, "newBio": newBio, "newPictureURL": results}), 200
     
+
+
+@get_Profile_Page_api.route("/profile/followUser", methods=['POST'])
+def followUser():
+    session_token = request.cookies.get('session_token')
+    if not session_token:
+        return jsonify({"errorMessage": "session token was not found, reload the page"})
+    else: 
+        hashed_token = hashlib.sha256(session_token.encode()).hexdigest()
+        username, userFound = authticateUser(hashed_token)
+    
+    if userFound == False:
+        return jsonify({"errorMessage": "no user was found"}), 400
+
+
+    #check for any data was sent
+    chosenUser = request.form.get('chosenUser')
+    print(chosenUser, flush=True)
+    if chosenUser == None:
+        return jsonify({'errorMessage': 'no data was sent'}), 400
+    
+
+    if chosenUser == username:
+        return jsonify({'errorMessage': 'cant follow yourself'}), 400
+
+
+    #check if the user being followed is actually a user
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    query = "SELECT EXISTS (SELECT 1 FROM users WHERE username = %s)"
+    cursor.execute(query, (chosenUser,))
+    exists = cursor.fetchone()[0]
+
+    if exists == False:
+        cursor.close()
+        conn.close()
+        return jsonify({"errorMessage","The user you wanted to follow can not be found"}), 400
+    
+
+    
+
+    #check to see if the user is already following this user
+    query = """
+    SELECT p.following
+    FROM users u
+    JOIN profilePages p ON u.profile_id = p.profile_id
+    WHERE u.cookie = %s;
+    """
+    cursor.execute(query, (hashed_token,))
+
+    results = cursor.fetchone()
+    if results:
+        followingList = results[0]
+
+    if chosenUser in followingList:
+        cursor.close()
+        conn.close()
+        return jsonify({'errorMessage': "you are already following this user"}), 400
+    
+
+    add_user_query = """
+    UPDATE profilePages
+    SET following = array_append(following, %s)
+    WHERE username = %s AND NOT (%s = ANY (following));
+    """
+    cursor.execute(add_user_query, (chosenUser, username, chosenUser))
+
+
+    add_user_query = """
+    UPDATE profilePages
+    SET followers = array_append(followers, %s)
+    WHERE username = %s AND NOT (%s = ANY (followers));
+    """
+    cursor.execute(add_user_query, (username, chosenUser, username))
+
+
+    conn.commit()
+    cursor.close()
+    conn.close()
+    return jsonify({"goodMessage": f'Successfully followed {chosenUser}'}), 200
+
+
+
+
+
+
+
+
 
 
 def getProfileDetail(profileID) -> dict:
@@ -207,10 +301,10 @@ def uploadNewProfilePicture(conn, cursor, newPicture, username):
 
 
 
-    #save the image having an issue???
+    #save the image
     directory = os.path.dirname(newPath)
     if not os.path.exists(directory):
-        os.makedirs(directory)  # Create the directory if it doesn't exist
+        os.makedirs(directory)
     newPicture.seek(0)
     newPicture.save(newPath)
 
