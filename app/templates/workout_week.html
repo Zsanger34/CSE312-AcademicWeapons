@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Workout Cards</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/workout_week.css') }}">
+</head>
+<body>
+    <div class="week_container">
+        <p>{{username}} Workout Routine</p>
+        <div class="week">
+            <ul class="weekdays">
+                <li class="day" data-day="monday"><p class="dayside">Monday</p></li>
+                <li class="day" data-day="tuesday"><p class="dayside">Tuesday</p></li>
+                <li class="day" data-day="wednesday"><p class="dayside">Wednesday</p></li>
+                <li class="day" data-day="thursday"><p class="dayside">Thursday</p></li>
+                <li class="day" data-day="friday"><p class="dayside">Friday</p></li>
+            </ul>
+            <ul class="weekends">
+                <li class="endday" data-day="saturday"><p>Saturday</p></li>
+                <li class="endday" data-day="sunday"><p>Sunday</p></li>
+            </ul>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='js/workout_week.js') }}"></script>
+</body>
+</html>
