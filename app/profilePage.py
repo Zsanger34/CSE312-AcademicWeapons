@@ -38,7 +38,7 @@ def getProfilePage(profileID):
             editOrFollow = "Unfollow"
             function = "unFollowUser()"
         
-        UserPosts = getUsersPosts(username, profileInfo['profilePictureUrl'], profileID)
+        UserPosts = getUsersPosts(profileInfo['username'], profileInfo['profilePictureUrl'], profileID)
         friendsList = getFriends(profileInfo['following'])
         print("friendsList:", friendsList, flush=True)
         return render_template('profilePage.html',
