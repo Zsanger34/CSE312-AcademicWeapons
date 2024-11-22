@@ -34,9 +34,13 @@ def getProfilePage(profileID):
                 function = "editPage()"
                 editOrFollow = "Edit"
         
-
+        if username in profileInfo['followers']:
+            editOrFollow = "Unfollow"
+            function = "unFollowUser()"
         
         UserPosts = getUsersPosts(username, profileInfo['profilePictureUrl'], profileID)
+        friendsList = getFriends(profileInfo['following'])
+        print("friendsList:", friendsList, flush=True)
         return render_template('profilePage.html',
                                 username=profileInfo['username'], 
                                 BIO_GOES_HERE=profileInfo['bio'],
@@ -45,7 +49,8 @@ def getProfilePage(profileID):
                                 Following=len(profileInfo['following']),
                                 followOrEditFunction = function,
                                 FollowOrEdit=editOrFollow,
-                                posts=UserPosts)
+                                posts=UserPosts,
+                                friends=friendsList)
     except Exception:
         return render_template('404.html')
     
@@ -238,3 +243,29 @@ def getFileType(fileData):
     mime = magic.Magic(mime=True)
     MimeType = mime.from_buffer(fileBytes)
     return MimeType
+
+
+def getFriends(following):
+    """
+    Function is being used for the friends section
+    """
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    query = "SELECT username, profilePictureUrl, profile_id FROM profilePages WHERE username = ANY (%s);"
+    cursor.execute(query, (following,))
+    results = cursor.fetchall()
+    friends = []
+
+    for friend in results:
+        newFriend = {
+            'username': friend[0],
+            'profilePictureUrl': friend[1],
+            'profileURL': friend[2]
+        }
+        friends.append(newFriend)
+        
+    friendsSwapped = friends[::-1]
+    conn.close()
+    cursor.close()
+    return friendsSwapped

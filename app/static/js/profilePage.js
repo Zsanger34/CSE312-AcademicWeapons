@@ -59,6 +59,36 @@ async function followUser(){
 
 }
 
+async function unFollowUser(){
+    const user = document.getElementById('userName').textContent
+    const formData = new FormData();
+    formData.append('chosenUser', user);
+    try{
+        const response = await fetch('/profile/unFollowUser', {
+            method: 'POST',
+            body: formData,
+
+        });
+
+        verifyFollowed = await response.json();
+        if (response.ok){
+            //user was followed, change it so that it now displays to unfollow the user
+            let goodMessage = verifyFollowed['goodMessage'];
+            showGoodMessage(goodMessage);
+
+        }else{
+            //display error message saying following user failed for some reason
+            let error = verifyFollowed['errorMessage'];
+            showErrorMessage(error);
+        }
+    }catch (error){
+        console.error('Error:', error);
+    }
+
+}
+
+
+
 
 document.getElementById("logout").addEventListener("click", function() {
     window.location.href = "/logout";

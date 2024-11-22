@@ -264,6 +264,14 @@ body {
     color: red;
 }
 
+/*Friends list style*/
+.friends-profile-image {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%; 
+    object-fit: cover; 
+}
+
 /*Error message style*/
 
 .error-message{

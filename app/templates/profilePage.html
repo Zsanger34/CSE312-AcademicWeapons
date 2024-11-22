@@ -69,6 +69,13 @@
         <!-- will be located on the right side of the screen -->
         <div class="friends">
             <h1>Friends:</h1>
+            {% for friend in friends %}
+            <div>
+                <img src="{{ friend.profilePictureUrl }}" class="friends-profile-image">
+                <p class="post-user"><a href="{{ friend.profileURL }}" class="user-link">{{ friend.username }}</a></p>
+            </div>
+            {% endfor %}
+
         </div>
     </div>
 
