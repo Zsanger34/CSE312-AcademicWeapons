@@ -6,6 +6,7 @@ from app.posts_path import posts_bp
 from app.get_posts import get_post_api
 from .logout_path import logout_routes
 from .profilePage import get_Profile_Page_api
+from.followUser import Follow_User_api
 
 def create_app():
     app = Flask(__name__)
@@ -18,6 +19,7 @@ def create_app():
     app.register_blueprint(get_post_api)
     app.register_blueprint(logout_routes)
     app.register_blueprint(get_Profile_Page_api)
+    app.register_blueprint(Follow_User_api)
 
 
     return app

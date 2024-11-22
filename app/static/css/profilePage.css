@@ -264,6 +264,38 @@ body {
     color: red;
 }
 
+/*Friends list style*/
+.friend-card {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #3b3f45;
+    border-radius: 8px;
+    background-color: #444c56;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+}
+
+.friend-card:hover {
+    transform: scale(1.02);
+    background-color: #57606f;
+}
+
+.friends-profile-image {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%; 
+    object-fit: cover; 
+}
+
+.friend-user{
+    font-size: 18px;
+    font-weight: bold;
+    margin-left: 10px;
+}
+
+
 /*Error message style*/
 
 .error-message{

@@ -12,6 +12,11 @@ get_Profile_Page_api = Blueprint('get_Profile_Page_api', __name__)
 def getProfilePage(profileID):
     try:
         profileInfo = getProfileDetail(profileID)
+        if profileInfo == None:
+            #return 404 if the profile could not be found
+            return render_template('404.html')
+
+
         editOrFollow = "Follow"
         function = "followUser()"
 
@@ -29,9 +34,13 @@ def getProfilePage(profileID):
                 function = "editPage()"
                 editOrFollow = "Edit"
         
-
+        if username in profileInfo['followers']:
+            editOrFollow = "Unfollow"
+            function = "unFollowUser()"
         
-        UserPosts = getUsersPosts(username, profileInfo['profilePictureUrl'], profileID)
+        UserPosts = getUsersPosts(profileInfo['username'], profileInfo['profilePictureUrl'], profileID)
+        friendsList = getFriends(profileInfo['following'])
+        print("friendsList:", friendsList, flush=True)
         return render_template('profilePage.html',
                                 username=profileInfo['username'], 
                                 BIO_GOES_HERE=profileInfo['bio'],
@@ -40,7 +49,8 @@ def getProfilePage(profileID):
                                 Following=len(profileInfo['following']),
                                 followOrEditFunction = function,
                                 FollowOrEdit=editOrFollow,
-                                posts=UserPosts)
+                                posts=UserPosts,
+                                friends=friendsList)
     except Exception:
         return render_template('404.html')
     
@@ -58,7 +68,7 @@ def editProfile():
         username, userFound = authticateUser(hashed_token)
     
     if userFound == False:
-        return jsonify({"errorMessage": "no user was found"})
+        return jsonify({"errorMessage": "no user was found"}), 400
     
 
 
@@ -68,7 +78,7 @@ def editProfile():
 
     #check if no data was sent
     if newBio == '' and newPicture == None:
-        return jsonify({"errorMessage": "no Data was Sent"})
+        return jsonify({"errorMessage": "no Data was Sent"}), 400
     
 
 
@@ -98,9 +108,9 @@ def editProfile():
         return jsonify({"bioChanged": True, "newBio": newBio}), 200
     
     else: #both picture and bio is being changed
-        updated, results = uploadNewProfilePicture(conn, cursor, newPicture, username)
+        (updated, results) = uploadNewProfilePicture(conn, cursor, newPicture, username)
         if updated == False:
-            return jsonify({"errorMessage": results})
+            return jsonify({"errorMessage": results}), 400
 
         #check to see if the new bio is over 100 characters
         if len(newBio) > 100:
@@ -115,7 +125,10 @@ def editProfile():
         cursor.close()
         conn.close()
         return jsonify({"bioAndPicture": True, "newBio": newBio, "newPictureURL": results}), 200
-    
+
+
+
+
 
 
 def getProfileDetail(profileID) -> dict:
@@ -207,10 +220,10 @@ def uploadNewProfilePicture(conn, cursor, newPicture, username):
 
 
 
-    #save the image having an issue???
+    #save the image
     directory = os.path.dirname(newPath)
     if not os.path.exists(directory):
-        os.makedirs(directory)  # Create the directory if it doesn't exist
+        os.makedirs(directory)
     newPicture.seek(0)
     newPicture.save(newPath)
 
@@ -230,3 +243,29 @@ def getFileType(fileData):
     mime = magic.Magic(mime=True)
     MimeType = mime.from_buffer(fileBytes)
     return MimeType
+
+
+def getFriends(following):
+    """
+    Function is being used for the friends section
+    """
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    query = "SELECT username, profilePictureUrl, profile_id FROM profilePages WHERE username = ANY (%s);"
+    cursor.execute(query, (following,))
+    results = cursor.fetchall()
+    friends = []
+
+    for friend in results:
+        newFriend = {
+            'username': friend[0],
+            'profilePictureUrl': friend[1],
+            'profileURL': friend[2]
+        }
+        friends.append(newFriend)
+        
+    friendsSwapped = friends[::-1]
+    conn.close()
+    cursor.close()
+    return friendsSwapped

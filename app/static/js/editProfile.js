@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const errorMessage = document.getElementById('editModalErrorMessage');
         if (currentBio.length > 100){
             bio.value = bio.value.substring(0, 100);
-            errorMessage.textContent = "too many characters, limit is 100"
+            errorMessage.textContent = "Bio limit character's is 100"
             errorMessage.style.display = 'block';
         }else{
             errorMessage.textContent = ""
@@ -28,10 +28,12 @@ function closeEditPage(){
     const bio = document.getElementById('bio')
     const profileImage = document.getElementById('profileImage')
     const goodMessage = document.getElementById('editModelGoodMessage');
+    const errorMessage = document.getElementById('editModalErrorMessage');
     modal.style.display = 'none';
     bio.value = '';
     profileImage.value = '';
     goodMessage.textContent = '';
+    errorMessage.textContent = '';
 
     if (pictureChanged == true){
         pictureChanged = false;
@@ -58,9 +60,8 @@ async function submitChanges(event){
         method: 'POST',
         body: formData
     });
-
+    const data = await response.json();
     if (response.ok) {
-        const data = await response.json();
         if ("bioChanged" in data) {
             // Handle bio change 
             document.getElementById('user-bio').textContent = data["newBio"];
@@ -75,10 +76,8 @@ async function submitChanges(event){
             pictureChanged = true;
         }
 
-    } else if (response.status === 400) {
-        errorMessage.textContent = data['errorMessage'];
     } else {
-        console.error('Unexpected error', await response.text());
+        errorMessage.textContent = data['errorMessage'];
     }
 
 
