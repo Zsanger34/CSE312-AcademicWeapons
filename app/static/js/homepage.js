@@ -41,6 +41,40 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 
+document.addEventListener("DOMContentLoaded", () => {
+    getSugUsers();
+});
+
+async function getSugUsers() {
+
+    const response = await fetch('/sugusers', {
+        method: 'GET',
+        credentials: 'include',
+    });
+
+    if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const profileData = await response.json();
+
+    const list = document.getElementById('suggested-users-list');
+
+    list.innerHTML = '';
+
+    profileData.sug_users.forEach(user => {
+        const li = document.createElement('li');
+
+        li.innerHTML = `
+            <img class="profile-picture" id="profile-picture" src="${user.profile_picture_url}" alt="profile picture" href = "/profile/${user.profile_id}">
+            <span><a href="/profile/${user.profile_id}">${user.username}</a></span>
+        `;
+
+
+        list.appendChild(li);
+    });
+}
+
 async function likeMessage(messageId) {
     const response = await fetch(`/messages/${messageId}/like`, {
         method: 'POST'
