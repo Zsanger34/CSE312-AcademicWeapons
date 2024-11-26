@@ -77,11 +77,14 @@ document.addEventListener("DOMContentLoaded", () => {
             body: JSON.stringify(routineData),
         });
 
-        const data = await response.json();
+        const result = await response.json();
 
         if (response.ok) {
-            console.log('we ar good')
+            window.location.href = '/add_day';
+        } else {
+            console.log(result)
         }
+
         // Reset form and clear routineData
         form.reset();
         showDaydiv.innerHTML = "";

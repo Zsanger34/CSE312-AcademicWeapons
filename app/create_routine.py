@@ -1,6 +1,7 @@
-from flask import Blueprint, request, jsonify, render_template, make_response
+from flask import Blueprint, request, jsonify, render_template, redirect, url_for, escape, make_response
 import psycopg2
-import bcrypt
+import hashlib
+
 
 
 #create login route
@@ -20,31 +21,50 @@ def get_db_connection():
 #is the workout day
 @add_week_route.route('/add_week', methods=['GET', 'POST'])
 def workoutroutine():
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    errors = {}
+
+    session_token = request.cookies.get('session_token')
+    hashed_token = ''
+    if not session_token:
+        return redirect(url_for('login_page.login'))
+    else: 
+        hashed_token = hashlib.sha256(session_token.encode()).hexdigest()
+    cursor.execute('SELECT username FROM users WHERE cookie = %s', (hashed_token,))
+    user = cursor.fetchone()
+    username = escape(user[0])
+    
+    #see if user has created a workout yet
+    cursor.execute('SELECT * FROM addweek WHERE username = %s', (username,))
+    user_table = cursor.fetchall()
+    if user_table:
+        errors['error'] = 'unsuccessful'
+        errors['message'] = 'user already has table'
+        return jsonify(errors), 400
+    
     if request.method == 'POST':
         
         valid_days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
-        #gathering the data which is the list, print(data, flush=True)
-        #[{'day': 'Tuesday', 'title': 'i should be abnle to press enter'}, {'day': 'Monday', 'title': 'workout titel'}]
         data = request.get_json()
     
         if data is []:
-            #if the data is empty
-            print('send a bad response and make the user redo the form', flush=True)
+            errors['error'] = 'unsucessful'
+            return jsonify(errors), 400
             
         for day in data:
             if day['day'] not in valid_days:
-                #if the day is not valid
-                print('day is not valid', flush=True)
-            
-        #set up the database for inserting and checking
-        print('success', flush=True)
-            
-        #if we pass the data is not empty and in the correct form and we pass the correct {} lets put it in the chat
-        #table that contains all the users with workout cards
+                errors['error'] = 'unsucessful'
+                return jsonify(errors), 400
+            else:
+                cursor.execute('INSERT INTO addweek (username, day, title) VALUES (%s, %s, %s)',
+                           (username, day['day'], day['title']))
+                conn.commit()
+                
+        cursor.close()
+        conn.close()
         
-        #so put day, username, title -> in a database
-        #if user is not in workout card table allow to create routine then add them to it after completion
-        
-        #go to add_add.html file where we will add the day
+        response = make_response(jsonify({'success': 'we are good'}))
+        return response
 
     return render_template('add_week.html')
