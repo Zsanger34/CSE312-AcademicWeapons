@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_sock import Sock
 from .routes import main_routes
 from .register_path import register_route
 from .login_path import login_route
@@ -8,10 +9,10 @@ from .logout_path import logout_routes
 from .profilePage import get_Profile_Page_api
 from.followUser import Follow_User_api
 from .suggested_user import get_sug_user_api
+from .webSockets import sock
 
 def create_app():
     app = Flask(__name__)
-    
     #blueprint routes
     app.register_blueprint(main_routes)
     app.register_blueprint(register_route)
@@ -23,5 +24,5 @@ def create_app():
     app.register_blueprint(Follow_User_api)
     app.register_blueprint(get_sug_user_api)
 
-
+    sock.init_app(app)
     return app
