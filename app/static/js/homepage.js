@@ -26,24 +26,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
             //We are going to have to delete all of this
-            const response = await fetch('/messages', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    user_id: userId,
-                    message_content: postContent
-                })
-            });
+            // const response = await fetch('/messages', {
+            //     method: 'POST',
+            //     headers: {
+            //         'Content-Type': 'application/json'
+            //     },
+            //     body: JSON.stringify({
+            //         user_id: userId,
+            //         message_content: postContent
+            //     })
+            // });
 
-            if (response.ok) {
-                alert("Your post has been submitted!");
-                postModal.style.display = "none";
-                document.getElementById("postContent").value = "";
-            } else {
-                alert("Error submitting your post.");
-            }
+            // if (response.ok) {
+            //     alert("Your post has been submitted!");
+            //     postModal.style.display = "none";
+            //     document.getElementById("postContent").value = "";
+            // } else {
+            //     alert("Error submitting your post.");
+            // }
             //to this
         } else {
             alert("Post cannot be empty!");
