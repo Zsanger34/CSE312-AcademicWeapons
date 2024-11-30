@@ -7,9 +7,15 @@ import uuid
 UPLOAD_FOLDER = os.path.join('static', 'uploads')
 get_Profile_Page_api = Blueprint('get_Profile_Page_api', __name__)
 
+#set up the database connection
+def get_db_connection():
+    conn = psycopg2.connect(host=DB_HOST, database=DB_NAME, user=DB_USER, password=DB_PASSWORD)
+    return conn
 
 @get_Profile_Page_api.route('/profile/<path:profileID>', methods=['GET'])
 def getProfilePage(profileID):
+    conn = get_db_connection()
+    cursor = conn.cursor()
     try:
         profileInfo = getProfileDetail(profileID)
         if profileInfo == None:
@@ -38,6 +44,42 @@ def getProfilePage(profileID):
             editOrFollow = "Unfollow"
             function = "unFollowUser()"
         
+        if profileInfo['username'] != username:
+            username = profileInfo['username']
+            
+        #get teh userinformation
+        cursor.execute('SELECT * FROM addroutine WHERE username = %s', (username,))
+        routine_data = cursor.fetchall()
+        if not routine_data:
+            routine_data = {}
+        else:
+            new_data = {}
+            
+            for exercise_row in routine_data:
+                if new_data.get(exercise_row[1]):
+                    new_data[exercise_row[1]].append({'name': escape(exercise_row[2]), 'weight': escape(exercise_row[3]), 'reps': escape(exercise_row[4]), 'sets': escape(exercise_row[5])})
+                else:
+                    new_data[exercise_row[1]] = [{'name': escape(exercise_row[2]), 'weight': escape(exercise_row[3]), 'reps': escape(exercise_row[4]), 'sets': escape(exercise_row[5])}]
+                    
+            routine_data = new_data
+        
+        #this is for get      
+        cursor.execute('SELECT * From addweek WHERE username = %s', (username,))
+        workout_data = cursor.fetchall()
+        dayData = []
+        if workout_data:
+            days_order = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+            days_in_list = []
+            grouped_data = {day: [] for day in days_order}
+            for row in workout_data:
+                grouped_data[row[1]].append(list(row))
+                days_in_list.append(row[1])
+                    
+            dayData = [entry for day in days_order for entry in grouped_data[day]]
+            
+            cursor.close()
+            conn.close()
+        
         UserPosts = getUsersPosts(profileInfo['username'], profileInfo['profilePictureUrl'], profileID)
         friendsList = getFriends(profileInfo['following'])
         print("friendsList:", friendsList, flush=True)
@@ -50,7 +92,9 @@ def getProfilePage(profileID):
                                 followOrEditFunction = function,
                                 FollowOrEdit=editOrFollow,
                                 posts=UserPosts,
-                                friends=friendsList)
+                                friends=friendsList,
+                                dayData=dayData,
+                                routineData=routine_data)
     except Exception:
         return render_template('404.html')
     
@@ -196,13 +240,6 @@ def getUsersPosts(username, profilePictureUrl, profileID):
     cursor.close()
     conn.close()
     return postsSwapped
-
-
-
-
-
-
-
 
 def uploadNewProfilePicture(conn, cursor, newPicture, username):
     FILESIGNATURES = ['image/jpeg', 'image/png', 'image/jpg']

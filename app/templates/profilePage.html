@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ username }}'s Profile</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/profilePage.css') }}">
+    <script>
+        const dayData = {{ dayData|tojson }};
+        const routineData = {{ routineData|tojson }}
+    </script>
 </head>
 <body>
     <div id="error-message" class="error-message"></div>
@@ -60,7 +64,15 @@
                 </div>
                 {% endfor %}
             </div>
-            <div>Hello</div>
+
+            <div class="routine">
+                <div class="create">
+        
+                    <div class="days_of_week" id="days-container">
+                         
+                    </div>
+                </div>
+            </div>
         </div>
 
         
