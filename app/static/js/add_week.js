@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", () => {
             removeDay(day);
         });
         showDaydiv.appendChild(dayCard);
-    };//end render card 
+    };//end render card
 
     
     const removeDay = async (day) => {
