@@ -1,0 +1,295 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+    font-family: 'Poppins', Arial, sans-serif;
+    background-color: #121212;
+    color: #e0e0e0;
+}
+/*i chained this container*/
+.container {
+    display: grid;
+    grid-template-columns: 220px 2.5fr;
+    height: 100vh;
+    overflow: hidden;
+}
+.sidebar {
+    background-color: #1a1a1a;
+    padding: 1rem 0;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding-left: 1rem;
+}
+.sidebar .logo {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.8rem;
+    color: #e0e0e0;
+    margin-bottom: 2rem;
+}
+.sidebar ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+.sidebar ul li {
+    margin: 1.5rem 0;
+}
+.sidebar ul li a {
+    color: #b3b3b3;
+    text-decoration: none;
+    font-size: 1.2rem;
+    padding-left: 1rem;
+    display: block;
+    transition: padding-left 0.3s ease, color 0.3s ease;
+}
+.sidebar ul li a:hover {
+    color: #e0e0e0;
+    padding-left: 1.5rem;
+    background-color: #2b2b2b;
+    border-radius: 5px;
+}
+.logout-btn {
+    padding: 10px 20px;
+    font-size: 1rem;
+    background-color: #ff4b4b;
+    color: #e0e0e0;
+    border: none;
+    width: 75%;
+    border-radius: 25px;
+    cursor: pointer;
+}
+
+/*i chained this container*/
+.content {
+    overflow-y: scroll;
+    padding: 2rem;
+    border-left: 1px solid #2a2a2a;
+    border-right: 1px solid #2a2a2a;
+}
+
+/*my code*/
+.routine {
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.create {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 98%;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+/*adding exceercises*/
+.add_exercise {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    width: 80%;
+    margin: 0 auto;
+    padding: 10px;
+    box-sizing: border-box;
+    background-color: #1a1a1a;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+}
+.title_day{
+    color: white;
+}
+.exercise-input {
+    height: 4vh;
+    width: 80%;
+    padding: 7px;
+    margin: 10px;
+    border-radius: 5px;
+    border: 1px solid black;
+    margin-bottom: 10px;
+}
+.row_value {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin: 10px 0;
+}
+.input-field {
+    width: 45%;
+    height: 3.5vh;
+    text-align: center;
+    margin-right: 5px;
+}
+.unit-span {
+    font-size: 14px;
+    color: white;
+    margin-bottom: 10px;
+}
+.input-lbs{
+    width: 30%;
+    margin: none;
+}
+.input-reps{
+    width: 30%;
+    margin: none;
+}
+.input-sets{
+    width: 30%;
+    margin: none;
+}
+.exercise-button{
+    height: 3vh;
+    width: 3vh;
+    border-radius: 5px;
+    border: 1px solid black;
+    background-color: white;
+    color: black;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+}
+/*done*/
+
+/*exercise cards*/
+.days_of_week {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    width: 100%; 
+    gap: 10px;
+    padding: 10px;
+    justify-items: center;
+    margin: 5px;
+}
+.day-box {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #e0e0e0;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 16px;
+    width: 100%; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: black;
+}
+.day-box h3{
+    margin-bottom: 15px;
+}
+.day-box h4{
+    margin-bottom: 20px;
+}
+.exercise {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #121212;
+    color: white;
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    margin-bottom: 10px;
+    width: 55vh;
+}
+.exercise_title {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 10px;
+    font-weight: bold;
+    font-size: 16px;
+}
+.exercise_row {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    font-size: 14px;
+}
+.exercise_row p{
+    font-weight: 50px;
+    font-size: 16px;
+    margin-right: 15px;
+    border: 1px solid black;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: white;
+    color: black;
+}
+.exercise:hover{
+    transform: scale(1.1);
+}
+.delete-button {
+    margin-top: 10px;
+    height: 2.5vh;
+    width: 2.5vh;
+    border: none;
+    border-radius: 5px;
+    background-color: red;
+    color: white;
+    font-size: 1.5vh;
+    cursor: pointer;
+}
+.delete-button:hover {
+    background-color: darkred;
+}
+/*done*/
+
+#add_day_button{
+    margin: 15px;
+    height: 4vh;
+    width: 16vh;
+    border: none;
+    border-radius: 5px;
+    background-color: white;
+    color: black;
+    box-shadow: 0 2px 4px rgba(255, 255, 255, 0.8);
+}
+#go_back{
+    margin: 15px;
+    height: 4vh;
+    width: 16vh;
+    border: none;
+    border-radius: 5px;
+    background-color: white;
+    color: black;
+    box-shadow: 0 2px 4px rgba(255, 255, 255, 0.8);
+}
+#go_back:hover{
+    background-color: #ff4b4b;
+    transform: scale(1.1);
+}
+#add_day_button:hover{
+    background-color: #ff4b4b;
+    transform: scale(1.1);
+}
+/*modal code don't waorry about*/
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.modal-content {
+    background: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    text-align: center;
+}
+.modal-button {
+    margin: 5px;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 3px;
+}
+.modal-button:hover {
+    background-color: #f0f0f0;
+}

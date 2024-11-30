@@ -17,7 +17,6 @@ CREATE TABLE messages (
 );
 
 
-
 CREATE TABLE profilePages (
     profile_id VARCHAR(255) PRIMARY KEY,
     username VARCHAR(255) UNIQUE NOT NULL,
@@ -28,3 +27,17 @@ CREATE TABLE profilePages (
     MyPosts INTEGER[]
 );
 
+CREATE TABLE addweek (
+    username VARCHAR NOT NULL,
+    day VARCHAR NOT NULL,
+    title VARCHAR NOT NULL
+);
+
+CREATE TABLE addroutine (
+    username VARCHAR NOT NULL,
+    day VARCHAR NOT NULL,
+    name VARCHAR NOT NULL,
+    weight VARCHAR NOT NULL,
+    reps VARCHAR NOT NULL,
+    sets VARCHAR NOT NULL
+);
