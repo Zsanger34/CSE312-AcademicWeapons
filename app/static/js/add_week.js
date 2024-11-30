@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
         dayCard.innerHTML = `
             <h3>${day}</h3>
             <p>${title}</p>
-            <button type="button" class="delete-day-button">Delete</button>
+            <button type="button" class="delete-day-button">x</button>
         `;
         dayCard.querySelector(".delete-day-button").addEventListener("click", () => {
             removeDay(day);

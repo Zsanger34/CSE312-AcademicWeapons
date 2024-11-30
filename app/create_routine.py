@@ -15,6 +15,23 @@ DB_PASSWORD = 'mysecretpassword'
 def get_db_connection():
     conn = psycopg2.connect(host=DB_HOST, database=DB_NAME, user=DB_USER, password=DB_PASSWORD)
     return conn
+def getProfileID(username):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    query = "SELECT profile_id FROM users WHERE username = %s;"
+    cursor.execute(query, (username,))
+    result = cursor.fetchone()
+
+    profile_id = None
+    if result is not None:
+        profile_id = result[0]  
+    else:
+        profileLink = "not-found"
+
+    conn.close()
+    cursor.close()
+    return profile_id
 
 #is the workout day
 @add_week_route.route('/add_week', methods=['GET', 'POST'])
@@ -74,5 +91,8 @@ def workoutroutine():
     if request.method == 'POST':
         response = make_response(jsonify({'success': 'we are good', 'updated_list': routine_list}))
         return response
-    
-    return render_template('add_week.html', workout_days=routine_list)
+    if user:
+        profile_id = getProfileID(username)
+        profileLink = "profile/" + profile_id
+        
+    return render_template('add_week.html', profileURL=profileLink, workout_days=routine_list)

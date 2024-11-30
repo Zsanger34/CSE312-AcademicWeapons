@@ -3,47 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Workout Week</title>
+    <title>RoutineFlex - Home</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/add_week.css') }}">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
     <script>
         const workout_days = {{ workout_days|tojson }};
     </script>
 </head>
 <body>
-    <div class="routine">
-        <div class="create">
-            <div class="formpart">
-                <div class="add_day">
-                    <h2>Add a Day</h2>
-                    <select id="day-select">
-                        <option value="" disabled selected>Choose a Day</option>
-                        <option value="Monday">Monday</option>
-                        <option value="Tuesday">Tuesday</option>
-                        <option value="Wednesday">Wednesday</option>
-                        <option value="Thursday">Thursday</option>
-                        <option value="Friday">Friday</option>
-                        <option value="Saturday">Saturday</option>
-                        <option value="Sunday">Sunday</option>
-                    </select>
-                    <input type="text" id="title" name="title" placeholder="Create Workout Title" maxlength="50">
-                    <button type="button" id="add_day_button">Add Day</button>
-                </div>
-    
-                <div class="show_day">
-                    <h2>Your Routine</h2>
-                     <ul class="day-list"></ul>
+    <div class="container">
+
+        <!--Side bar contaner-->
+        <nav class="sidebar">
+            <h1 class="logo">RoutineFlex</h1>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="#">Search</a></li>
+                <li><a href="#">Explore</a></li>
+                <li><a href="#">Messages</a></li>
+                <li><a href="#">Notifications</a></li>
+                <li><a href="{{ profileURL }}">Profile</a></li>
+            </ul>
+            <button id="logout" class="logout-btn">Logout</button>
+        </nav>
+
+
+        <!-- Main Content Area -->
+        <main class="content" id="content">
+            <div class="create">
+                <div class="formpart">
+                    <div class="add_day">
+                        <h2>Add a Day</h2>
+                        <select id="day-select">
+                            <option value="" disabled selected>Choose a Day</option>
+                            <option value="Monday">Monday</option>
+                            <option value="Tuesday">Tuesday</option>
+                            <option value="Wednesday">Wednesday</option>
+                            <option value="Thursday">Thursday</option>
+                            <option value="Friday">Friday</option>
+                            <option value="Saturday">Saturday</option>
+                            <option value="Sunday">Sunday</option>
+                        </select>
+                        <input type="text" id="title" name="title" placeholder="Create Workout Title" maxlength="50">
+                        <button type="button" id="add_day_button">Add Day</button>
+                        <p>Press To Go Add Exercises</p>
+                        <button type="button" id="create_routine">Create Routine</button>
+                    </div>
+        
+                    <div class="show_day">
+                        <h2>Your Routine</h2>
+                            <ul class="day-list"></ul>
+                    </div>
                 </div>
             </div>
-            <button type="button" id="create_routine"><h2>Create Routine</h2></button>
-        </div>
-        <div id="error-modal" class="modal" style="display: none;">
-            <div class="modal-content">
-                <p id="error-message"></p>
-                <button id="error-ok-button" class="modal-button">OK</button>
+            <div id="error-modal" class="modal" style="display: none;">
+                <div class="modal-content">
+                    <p id="error-message"></p>
+                    <button id="error-ok-button" class="modal-button">OK</button>
+                </div>
             </div>
-        </div>
-    </div>
+        </main>
+
+    </div>  
     <script src="{{ url_for('static', filename='js/add_week.js') }}"></script>
 </body>
 </html>

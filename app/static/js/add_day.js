@@ -21,6 +21,10 @@ document.addEventListener('DOMContentLoaded', () => {
     
             const add_exercise = document.createElement('div');
             add_exercise.className = 'add_exercise';
+
+            const title_day =  document.createElement('h3');
+            title_day.textContent = 'Create an Exercise';
+            title_day.className = 'title_day';
     
             const exerciseInput = document.createElement('input');
             exerciseInput.type = 'text';
@@ -28,11 +32,18 @@ document.addEventListener('DOMContentLoaded', () => {
             exerciseInput.className = 'exercise-input';
             exerciseInput.maxLength = 50;
             exerciseInput.oninput = function () {this.value = this.value.replace(/[^a-zA-Z ()-]/g, '');};
-    
+
+            const rowvalue = document.createElement('div');
+            rowvalue.className = 'row_value';
+
             const weightcontainer = createInputContainer('lbs');
             const repscontainer = createInputContainer('reps');
             const setscontainer = createInputContainer('sets');
-    
+            
+            rowvalue.appendChild(weightcontainer);
+            rowvalue.appendChild(setscontainer);
+            rowvalue.appendChild(repscontainer);
+
             const exerciseList = document.createElement('div');
             exerciseList.className = 'exercise-list';
     
@@ -44,7 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
             const addButton = document.createElement('button');
             addButton.type = 'button';
-            addButton.textContent = 'Add';
+            addButton.textContent = '+';
             addButton.className = 'exercise-button';
             addButton.onclick = async () => {
                 const exerciseName = exerciseInput.value;
@@ -75,11 +86,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     showErrorModal(result.error);
                 }
             };
-    
+            
+            add_exercise.appendChild(title_day)
             add_exercise.appendChild(exerciseInput);
-            add_exercise.appendChild(weightcontainer);
-            add_exercise.appendChild(repscontainer);
-            add_exercise.appendChild(setscontainer);
+            add_exercise.appendChild(rowvalue);
             add_exercise.appendChild(addButton);
     
             dayBox.appendChild(dayHeader);
@@ -141,11 +151,15 @@ document.addEventListener('DOMContentLoaded', () => {
         exerciseDiv.className = 'exercise';
         const exerciseTitle = document.createElement('p');
         exerciseTitle.textContent = name;
+        exerciseTitle.className = 'exercise_title'
+
+        const exerciserow = document.createElement('div');
+        exerciserow.className = 'exercise_row';
 
         const exerciseweight = document.createElement('p');
         const weight_name = `${weight} lbs`
         exerciseweight.textContent = weight_name;
-
+        
         const exercisesets = document.createElement('p');
         const sets_name = `${sets} sets`
         exercisesets.textContent = sets_name;
@@ -153,6 +167,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const exercisereps = document.createElement('p');
         const reps_name = `${reps} reps`
         exercisereps.textContent = reps_name;
+
+        exerciserow.appendChild(exerciseweight)
+        exerciserow.appendChild(exercisesets)
+        exerciserow.appendChild(exercisereps)
 
         //call a function to delete
         const deleteButton = document.createElement('button');
@@ -163,9 +181,7 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         exerciseDiv.appendChild(exerciseTitle);
-        exerciseDiv.appendChild(exerciseweight);
-        exerciseDiv.appendChild(exercisesets);
-        exerciseDiv.appendChild(exercisereps);
+        exerciseDiv.appendChild(exerciserow);
         exerciseDiv.appendChild(deleteButton);
         return exerciseDiv;
     }

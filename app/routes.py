@@ -74,9 +74,9 @@ def home():
         username = escape(user[0])
         profile_id = getProfileID(username)
         profileLink = "profile/" + profile_id
+        createCardLink = "/add_week"
 
-
-        return render_template('index.html', username=username, profileURL= profileLink)
+        return render_template('index.html', username=username, profileURL= profileLink, createCard=createCardLink)
     else:
         return redirect(url_for('register.register'))
 
