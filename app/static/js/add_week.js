@@ -120,6 +120,8 @@ document.addEventListener("DOMContentLoaded", () => {
             input.value = '';
         });
     });
-
+    document.getElementById("logout").addEventListener("click", function() {
+        window.location.href = "/logout";
+    });
 });//end of the dom
 

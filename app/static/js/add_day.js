@@ -208,4 +208,7 @@ document.addEventListener('DOMContentLoaded', () => {
     gobackbutton.addEventListener('click', () => {
         window.location.href = '/add_week';
     });
+    document.getElementById("logout").addEventListener("click", function() {
+        window.location.href = "/logout";
+    });
 });
