@@ -55,4 +55,4 @@ def get_sug_user():
             "profile_picture_url": profile[2]
         })
 
-        return jsonify(sug_users=sug_users)
+    return jsonify(sug_users=sug_users)

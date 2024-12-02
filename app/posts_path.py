@@ -1,6 +1,5 @@
 # app/posts_path.py
-
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, current_app
 import psycopg2
 from psycopg2.extras import RealDictCursor
 import hashlib
