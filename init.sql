@@ -1,6 +1,7 @@
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
     username VARCHAR(255) UNIQUE NOT NULL,
+    profile_id VARCHAR(255) UNIQUE NOT NULL,
     password VARCHAR(255) NOT NULL,
     salt VARCHAR(255) NOT NULL,
     cookie VARCHAR(255) NOT NULL
@@ -15,3 +16,28 @@ CREATE TABLE messages (
     id_like_list INTEGER[]
 );
 
+
+CREATE TABLE profilePages (
+    profile_id VARCHAR(255) PRIMARY KEY,
+    username VARCHAR(255) UNIQUE NOT NULL,
+    profilePictureUrl VARCHAR NOT NULL,  
+    bio VARCHAR(255) NOT NULL,  
+    followers VARCHAR[], 
+    following VARCHAR[],
+    MyPosts INTEGER[]
+);
+
+CREATE TABLE addweek (
+    username VARCHAR NOT NULL,
+    day VARCHAR NOT NULL,
+    title VARCHAR NOT NULL
+);
+
+CREATE TABLE addroutine (
+    username VARCHAR NOT NULL,
+    day VARCHAR NOT NULL,
+    name VARCHAR NOT NULL,
+    weight VARCHAR NOT NULL,
+    reps VARCHAR NOT NULL,
+    sets VARCHAR NOT NULL
+);

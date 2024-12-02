@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Routine</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/add_day.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <script>
+        const dayData = {{ dayData|tojson }};
+        const routineData = {{ routineData|tojson }}
+    </script>
+</head>
+<body>
+    <div class="container">
+
+        <!--Side bar contaner-->
+        <nav class="sidebar">
+            <h1 class="logo">RoutineFlex</h1>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="#">Search</a></li>
+                <li><a href="#">Explore</a></li>
+                <li><a href="#">Messages</a></li>
+                <li><a href="#">Notifications</a></li>
+                <li><a href="{{ profileURL }}">Profile</a></li>
+            </ul>
+            <button id="logout" class="logout-btn">Logout</button>
+        </nav>
+
+
+        <!-- Main Content Area -->
+        <main class="content" id="content">
+            <div class="routine">
+                <div class="create">
+        
+                    <div class="days_of_week" id="days-container">
+                         
+                    </div>
+                    <button type="button" id="add_day_button">Done</button>
+                    <button type="button" id="go_back">Go Back to Week</button>
+                </div>
+        
+                <div id="error-modal" class="modal" style="display: none;">
+                    <div class="modal-content">
+                        <p id="error-message"></p>
+                        <button id="error-ok-button" class="modal-button">OK</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+    </div> 
+    <script src="{{ url_for('static', filename='js/add_day.js') }}"></script>
+</body>
+</html>

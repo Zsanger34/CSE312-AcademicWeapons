@@ -1,3 +1,6 @@
+let socket = null;
+
+
 document.addEventListener("DOMContentLoaded", () => {
     const postButton = document.getElementById("postButton");
     const postModal = document.getElementById("postModal");
@@ -17,29 +20,135 @@ document.addEventListener("DOMContentLoaded", () => {
         const userId = 1;
 
         if (postContent.trim() !== "") {
-            const response = await fetch('/messages', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    user_id: userId,
-                    message_content: postContent
-                })
-            });
 
-            if (response.ok) {
-                alert("Your post has been submitted!");
-                postModal.style.display = "none";
-                document.getElementById("postContent").value = "";
-            } else {
-                alert("Error submitting your post.");
-            }
+            //sends the message through the connection
+            socket.send(JSON.stringify({user_id: userId, message_content: postContent}))
+
+            alert("Your post has been submitted!");
+
+            postModal.style.display = "none";
+            document.getElementById("postContent").value = "";
+
+
+            //We are going to have to delete all of this
+            // const response = await fetch('/messages', {
+            //     method: 'POST',
+            //     headers: {
+            //         'Content-Type': 'application/json'
+            //     },
+            //     body: JSON.stringify({
+            //         user_id: userId,
+            //         message_content: postContent
+            //     })
+            // });
+
+            // if (response.ok) {
+            //     alert("Your post has been submitted!");
+            //     postModal.style.display = "none";
+            //     document.getElementById("postContent").value = "";
+            // } else {
+            //     alert("Error submitting your post.");
+            // }
+            //to this
         } else {
             alert("Post cannot be empty!");
         }
     });
 });
+
+document.addEventListener("DOMContentLoaded", () => {
+    getSugUsers();
+    startWebSocket();
+});
+
+
+function startWebSocket(){
+    //websocket connection code
+
+    // establish a websocket connection
+    socket = new WebSocket('ws://' + window.location.host + '/establish_POSTS_Connection')
+
+    socket.onopen = function (){
+        //checks to see if the connection was opened correctly
+        console.log('websocket connection established')
+    }
+
+    socket.onerror = function (error) {
+        console.error("WebSocket error:", error);
+    };
+
+    //this listens for any messages through the connection
+    socket.onmessage = function(event) {
+        const message = JSON.parse(event.data);  
+        addPost_WebSocket(message);
+    };
+}
+
+function addPost_WebSocket(post){
+    const content = document.getElementById('content');
+    const section = document.createElement('section');
+    section.classList.add('feed-item');
+
+
+    const messageContent  = document.createElement('p');
+        messageContent.textContent = post.message_content;
+    const username = document.createElement('a');
+        username.textContent = `Posted by: ${post.username}`;
+        username.href = `/profile/${post.profile_id}`;
+        username.classList.add('username-link');
+    const likes = document.createElement('p');
+        likes.textContent = `Likes: ${post.likes}`;
+    const timestamp = document.createElement('time');
+        timestamp.textContent = `Posted on: ${post.created_at}`;
+    const likebutton =  document.createElement('like-button');
+        likebutton.classList.add('like-button');
+        likebutton.textContent ="Like!"
+        likebutton.addEventListener('click', async () => {
+        const response = await likeMessage(post.message_id);
+        if (response.ok) {
+                likes.textContent = `Likes: ${post.likes + 1}`;
+            }
+    });
+        section.appendChild(messageContent);
+        section.appendChild(username);
+        section.appendChild(likes);
+        section.appendChild(timestamp);
+        section.appendChild(likebutton);
+    content.insertBefore(section, content.firstChild);
+}
+
+
+
+
+async function getSugUsers() {
+
+    const response = await fetch('/sugusers', {
+        method: 'GET',
+        credentials: 'include',
+    });
+
+    if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const profileData = await response.json();
+
+    const list = document.getElementById('suggested-users-list');
+
+    list.innerHTML = '';
+
+    profileData.sug_users.forEach(user => {
+        const li = document.createElement('li');
+
+        li.innerHTML = `
+            <img class="profile-picture" id="profile-picture" src="${user.profile_picture_url}" alt="profile picture" href = "/profile/${user.profile_id}">
+            <span><a href="/profile/${user.profile_id}">${user.username}</a></span>
+        `;
+
+
+        list.appendChild(li);
+    });
+}
 
 async function likeMessage(messageId) {
     const response = await fetch(`/messages/${messageId}/like`, {
@@ -82,17 +191,19 @@ async function loadPosts()
 
 
     const messageContent  = document.createElement('p');
-    messageContent.textContent = post.message_content;
-    const username = document.createElement('p');
+        messageContent.textContent = post.message_content;
+    const username = document.createElement('a');
         username.textContent = `Posted by: ${post.username}`;
+        username.href = `/profile/${post.profile_id}`;
+        username.classList.add('username-link');
     const likes = document.createElement('p');
         likes.textContent = `Likes: ${post.likes}`;
     const timestamp = document.createElement('time');
         timestamp.textContent = `Posted on: ${post.created_at}`;
     const likebutton =  document.createElement('like-button');
-    likebutton.classList.add('like-button');
-    likebutton.textContent ="Like!"
-    likebutton.addEventListener('click', async () => {
+        likebutton.classList.add('like-button');
+        likebutton.textContent ="Like!"
+        likebutton.addEventListener('click', async () => {
         const response = await likeMessage(post.message_id);
         if (response.ok) {
                 likes.textContent = `Likes: ${post.likes + 1}`;

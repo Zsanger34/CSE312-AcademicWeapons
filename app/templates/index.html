@@ -11,13 +11,13 @@
         <nav class="sidebar">
             <h1 class="logo">RoutineFlex</h1>
             <ul>
-                <li><a href="#">Home</a></li>
+                <li><a href="/">Home</a></li>
                 <li><a href="#">Search</a></li>
                 <li><a href="#">Explore</a></li>
                 <li><a href="#">Messages</a></li>
                 <li><a href="#">Notifications</a></li>
-                <li><a href="#">Create</a></li>
-                <li><a href="#">Profile</a></li>
+                <li><a href="{{ createCard }}">Create</a></li>
+                <li><a href="{{ profileURL }}">Profile</a></li>
             </ul>
             <button id="logout" class="logout-btn">Logout</button>
         </nav>
@@ -43,6 +43,12 @@
         <aside class="profile-sidebar">
             <h1 class="username-display">Welcome, {{username}}!</h1>
             <button id="postButton" class="post-btn">Post</button>
+            <div class="suggested-users-box">
+            <h3>Suggested Users</h3>
+            <ul id="suggested-users-list">
+
+            </ul>
+            </div>
         </aside>
 
         <div id="postModal" class="modal">

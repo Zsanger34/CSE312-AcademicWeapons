@@ -1,3 +1,5 @@
 Flask==2.3.2
 psycopg2==2.9.3  # PostgreSQL driver for Python
 bcrypt==4.0.1
+python-magic
+flask_sock

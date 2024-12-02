@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ username }}'s Profile</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/profilePage.css') }}">
+    <script>
+        const dayData = {{ dayData|tojson }};
+        const routineData = {{ routineData|tojson }}
+    </script>
+</head>
+<body>
+    <div id="error-message" class="error-message"></div>
+    <div id="good-message" class="good-message"></div>
+    <div class="profile-container">
+        <nav class="sidebar">
+            <h1 class="logo">RoutineFlex</h1>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="#">Search</a></li>
+                <li><a href="#">Explore</a></li>
+                <li><a href="#">Messages</a></li>
+                <li><a href="#">Notifications</a></li>
+                <li><a href="/add_week">Create</a></li>
+            </ul>
+            <button id="logout" class="logout-btn">Logout</button>
+        </nav>
+
+
+        <!-- Main Content Area -->
+        <div class="profile-section">
+            <!--Will contain the profile information, picture, bio, username, etc..-->
+            <img src="{{ profilePictureUrl }}" alt="{{ username }}'s Profile Picture" class="profile-picture" id="profile-picture">
+
+            <div class="profile-Summary">
+                <button class="followOredit-button" onclick= "{{ followOrEditFunction }}">{{ FollowOrEdit }}</button>
+                <div class="profile-details">
+                    <h1 class="userName" id="userName">{{ username }}</h1>
+                    <p class="user-bio" id="user-bio">{{ BIO_GOES_HERE }}</p>
+                    <div class="followersCount">
+                        <p>Followers: {{ Followers }}</p>
+                        <p>Following: {{ Following }}</p>
+                    </div>
+                </div>
+            </div>
+
+
+            <!--This will div will contain all the user activites, posts, comments, etc..-->
+            <div class="user-activity">
+                {% for post in posts %}
+                <div class="post-card">
+                    <div class="post-header">
+                        <img src="{{ post.profilePictureUrl }}" class="post-profile-image" alt="Profile Picture">
+                        <div class="post-user-details">
+                            <p class="post-user"><a href="{{ post.profileURL }}" class="user-link">{{ post.username }}</a></p>
+                        </div>
+                    </div>
+                    <div class="post-info">
+                        <p class="post-text">{{ post.POSTCONTENT }}</p>
+                        <p class="likes-count">Likes: {{ post.POSTLIKECOUNTER }}</p>
+                        <p class="post-date">Posted on: {{ post.POSTTIME }}</p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <div class="routine">
+                <div class="create">
+        
+                    <div class="days_of_week" id="days-container">
+                         
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+
+
+        <!-- will be located on the right side of the screen -->
+        <div class="friends">
+            <h1>Friends:</h1>
+            {% for friend in friends %}
+            <div class="friend-card">
+                <img src="{{ friend.profilePictureUrl }}" class="friends-profile-image">
+                <p class="friend-user"><a href="{{ friend.profileURL }}" class="user-link">{{ friend.username }}</a></p>
+            </div>
+            {% endfor %}
+
+        </div>
+    </div>
+
+    <!-- Modal for Editing Profile -->
+    <div id="editProfileModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeEditPage()">&times;</span>
+            <h2>Edit Profile</h2>
+            <p class="editModelGoodMessage" id="editModelGoodMessage"></p>
+            <p class="editModalErrorMessage" id="editModalErrorMessage"></p>
+            <form id="editProfileForm">
+                <label for="profileImage">Change Profile Picture:</label>
+                <input type="file" id="profileImage" name="profileImage" accept="image/*"><br><br>
+                
+                <p>to not change your bio, leave it blank</p>
+                <label for="bio">Edit Bio:</label>
+                <textarea id="bio" name="bio" rows="4" placeholder="Enter your new bio..."></textarea><br><br>
+                
+                <button type="button" class="submit-profile-btn" onclick="submitChanges(event)">Save Changes</button>
+            </form>
+        </div>
+    </div>
+    
+
+    <script src="{{ url_for('static', filename='js/profilePage.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/editProfile.js') }}"></script>
+</body>
+</html>
