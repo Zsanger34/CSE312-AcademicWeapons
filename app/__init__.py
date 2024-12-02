@@ -25,9 +25,8 @@ def create_app():
     app.register_blueprint(get_Profile_Page_api)
     app.register_blueprint(Follow_User_api)
     app.register_blueprint(get_sug_user_api)
-
-    sock.init_app(app)
-
     app.register_blueprint(add_week_route)
     app.register_blueprint(add_day_route)
+
+    sock.init_app(app)
     return app
