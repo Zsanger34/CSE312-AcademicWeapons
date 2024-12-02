@@ -24,6 +24,11 @@ document.addEventListener("DOMContentLoaded", () => {
             //sends the message through the connection
             socket.send(JSON.stringify({user_id: userId, message_content: postContent}))
 
+            alert("Your post has been submitted!");
+
+            postModal.style.display = "none";
+            document.getElementById("postContent").value = "";
+
 
             //We are going to have to delete all of this
             // const response = await fetch('/messages', {
@@ -73,20 +78,14 @@ function startWebSocket(){
     };
 
     //this listens for any messages through the connection
-    socket.message = function(message){
+    socket.onmessage = function(event) {
+        const message = JSON.parse(event.data);  
         addPost_WebSocket(message);
     };
 }
 
-function addPost_WebSocket(message){
+function addPost_WebSocket(post){
     const content = document.getElementById('content');
-
-    message.posts.forEach(post => {
-    //Added each post to the html in the format
-//    <section class="feed-item">
-//                <img src="../static/images/workout1.jpg" alt="Workout Example 1">
-//                <p>Push yourself to the limit! 💪 #Strength</p>
-//    </section>
     const section = document.createElement('section');
     section.classList.add('feed-item');
 
@@ -116,7 +115,6 @@ function addPost_WebSocket(message){
         section.appendChild(timestamp);
         section.appendChild(likebutton);
     content.insertBefore(section, content.firstChild);
-    });
 }
 
 
