@@ -17,17 +17,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
     submitPost.addEventListener("click", async () => {
         const postContent = document.getElementById("postContent").value;
+        let scheduledTime = document.getElementById('scheduledTime').value;
+        if (scheduledTime === ""){
+            scheduledTime = null;
+        }
         const userId = 1;
 
         if (postContent.trim() !== "") {
 
             //sends the message through the connection
-            socket.send(JSON.stringify({user_id: userId, message_content: postContent}))
+            socket.send(JSON.stringify({user_id: userId, message_content: postContent, scheduled_time: scheduledTime}))
 
             alert("Your post has been submitted!");
 
             postModal.style.display = "none";
             document.getElementById("postContent").value = "";
+            document.getElementById('postContent').value = '';
 
 
             //We are going to have to delete all of this

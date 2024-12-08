@@ -9,9 +9,11 @@ from .logout_path import logout_routes
 from .profilePage import get_Profile_Page_api
 from.followUser import Follow_User_api
 from .suggested_user import get_sug_user_api
-from .webSockets import sock
+from .webSockets import sock, handleSchedulePosts
 from .create_routine import add_week_route
 from .display_routine import add_day_route
+import threading
+
 
 def create_app():
     app = Flask(__name__)
@@ -27,6 +29,15 @@ def create_app():
     app.register_blueprint(get_sug_user_api)
     app.register_blueprint(add_week_route)
     app.register_blueprint(add_day_route)
+
+    def start_schedule_thread():
+        with app.app_context():
+            handleSchedulePosts()
+
+    schedule_thread = threading.Thread(target=start_schedule_thread)
+    schedule_thread.daemon = True
+    schedule_thread.start()
+
 
     sock.init_app(app)
     return app
