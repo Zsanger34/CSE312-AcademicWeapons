@@ -5,6 +5,7 @@ import psycopg2
 from psycopg2.extras import RealDictCursor
 import hashlib
 import json
+from datetime import datetime, timedelta
 
 # Initialize Sock
 sock = Sock()
@@ -79,14 +80,14 @@ def websocket_connection(ws):
                 conn.close()
 
                 print(f"Message stored with ID: {message_id}", flush=True)
-
+                
                 # Broadcast the message to all connected clients
                 format_post = {
                     "message_id": post[0],
                     "username": post[1],
                     "message_content": post[2],
                     "likes": post[3],
-                    "created_at": post[4].strftime('%Y-%m-%d %H:%M:%S'),
+                    "created_at": time_ago(post[4]) ,#post[4].strftime('%Y-%m-%d %H:%M:%S'),
                     "profile_id": post[5],
                     "profile_picture_url": post[6]
                 }
@@ -109,3 +110,19 @@ def broadcast_message(message):
             print(f"Failed to send message to client: {e}")
             WEBSOCKET_CONNECTIONS.remove(client)
 
+
+def time_ago(post_time):
+    
+    now = datetime.now()
+    diff = now - post_time
+    print(diff, flush=True)
+    if diff.days > 1:
+        return f"{diff.days} days ago"
+    elif diff.days == 1:
+        return "1 day ago"
+    elif diff.seconds >= 3600:
+        return f"{diff.seconds // 3600} hours ago"
+    elif diff.seconds >= 60:
+        return f"{diff.seconds // 60} minutes ago"
+    else:
+        return "just now"
