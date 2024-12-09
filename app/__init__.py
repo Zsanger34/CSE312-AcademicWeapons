@@ -13,6 +13,7 @@ from .webSockets import sock
 from .create_routine import add_week_route
 from .display_routine import add_day_route
 
+
 def create_app():
     app = Flask(__name__)
     #blueprint routes
@@ -27,6 +28,7 @@ def create_app():
     app.register_blueprint(get_sug_user_api)
     app.register_blueprint(add_week_route)
     app.register_blueprint(add_day_route)
+
 
     sock.init_app(app)
     return app
