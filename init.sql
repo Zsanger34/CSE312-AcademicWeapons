@@ -16,6 +16,12 @@ CREATE TABLE messages (
     id_like_list INTEGER[]
 );
 
+CREATE TABLE schedulePosts (
+    post_id SERIAL PRIMARY KEY,
+    post_schedule_time TIMESTAMP,
+    post_data TEXT NOT NULL,
+    username VARCHAR(255) UNIQUE NOT NULL
+);
 
 CREATE TABLE profilePages (
     profile_id VARCHAR(255) PRIMARY KEY,

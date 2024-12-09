@@ -99,7 +99,7 @@ function addPost_WebSocket(post){
     const likes = document.createElement('p');
         likes.textContent = `Likes: ${post.likes}`;
     const timestamp = document.createElement('time');
-        timestamp.textContent = `Posted on: ${post.created_at}`;
+        timestamp.textContent = `Posted: ${post.created_at}`;
     const likebutton =  document.createElement('like-button');
         likebutton.classList.add('like-button');
         likebutton.textContent ="Like!"
