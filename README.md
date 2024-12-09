@@ -51,6 +51,13 @@ Provides detailed documentation of the application, its structure, and instructi
 
 Follow these steps to get the project up and running on your local machine.
 
+## Creating a Workout Card
+
+On the left sidebar there is a button called 'create'. click that button, after you clicked you will be directed to a page where it gives you an option
+to put a workout title and a day. Every you add or delete a day it will automatically update for your user. After you got all the days you want to press the button 'Create Routine' you will move on to a new page. You will then be able for each day to add an exercise. You first give it the name of the 
+exercise and then have 3 options to add a weight, set number, and a rep number. you will then press the (+) button to added the exercise to your 
+routine. if you do not want it anymore you can press the red button to get rid of it. Everytimg you add or remove an exercise it will automatically update.
+
 ### Prerequisites
 
 - **Docker**: Ensure you have Docker installed on your machine. [Install Docker](https://docs.docker.com/get-docker/).
